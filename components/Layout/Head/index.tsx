@@ -1,11 +1,10 @@
-import { FC } from "react";
 import NextHead from "next/head";
 
 interface Props {
     title: string;
 };
 
-const Head: FC<Props> = ({ title }) => {
+const Head = ({ title }: Props) => {
     return (
         <NextHead>
             <title> {title} </title>
