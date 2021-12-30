@@ -1,0 +1,51 @@
+@import "../../../styles/variables.scss";
+
+.Brand {
+    position: relative;
+    left: -15px;
+    top: -28px;
+    height: 80px;
+    width: 150px;
+
+    @media (min-width: $screen-size_sm) and (max-width: $screen-size_sm-before){
+        top: -10px;
+        height: 200px;
+        width: 150px;
+    }
+
+    @media (min-width: $screen-size_md) {
+        width: 130px;
+        height: 100px;
+    }
+
+    @media (min-width: $screen-size_lg) {
+        top: -5px;
+        width: 130px;
+        height: 110px;
+    }
+}
+
+.NavStyle {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+    background-color: #646263;
+
+    @media (min-width: $screen-size_sm) {
+        // height: 100px;
+    }
+
+    @media (min-width: $screen-size_md) {
+        // height: 110px;
+    }
+
+    @media (min-width: $screen-size_lg) {
+        height: 70px;
+    }
+}
+
+.LinkStyle {
+    text-transform: uppercase;
+    color: #FFF !important;
+    font-weight: 700;
+}
