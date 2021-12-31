@@ -1,7 +1,7 @@
 import BsNavbar from "react-bootstrap/Navbar";
 import Image from "next/image";
 import Nav from "react-bootstrap/Nav";
-import Link from "next/link";
+import NavLink from "../NavLink";
 import styles from "./index.module.scss";
 
 interface Props {
@@ -9,6 +9,8 @@ interface Props {
 };
 
 const Navbar = (props: Props) => {
+    const { path } = props;
+
     return (
         <BsNavbar expand="lg" className={styles.NavStyle}>
             <BsNavbar.Brand href='/' className={styles.Brand}>
@@ -17,41 +19,13 @@ const Navbar = (props: Props) => {
             <BsNavbar.Toggle aria-controls="responsive-navbar-nav" />
             <BsNavbar.Collapse id="responsive-navbar-nav">
                 <Nav>
-                    <Link href='/' passHref>
-                        <Nav.Link className={styles.LinkStyle}>
-                            How it Works
-                        </Nav.Link>
-                    </Link>
-                    <Link href='/' passHref>
-                        <Nav.Link className={styles.LinkStyle}>
-                            Karma News
-                        </Nav.Link>
-                    </Link>
-                    <Link href='/' passHref>
-                        <Nav.Link className={styles.LinkStyle}>
-                            My Karma
-                        </Nav.Link>
-                    </Link>
-                    <Link href='/' passHref>
-                        <Nav.Link className={styles.LinkStyle}>
-                            Charts
-                        </Nav.Link>
-                    </Link>
-                    <Link href='/' passHref>
-                        <Nav.Link className={styles.LinkStyle}>
-                            Radio
-                        </Nav.Link>
-                    </Link>
-                    <Link href='/' passHref>
-                        <Nav.Link className={styles.LinkStyle}>
-                            Contact
-                        </Nav.Link>
-                    </Link>
-                    <Link href='/' passHref>
-                        <Nav.Link className={styles.LinkStyle}>
-                            Login/Register
-                        </Nav.Link>
-                    </Link>
+                    <NavLink link="How it Works" isActive={path === "howItWorks"} />
+                    <NavLink link="Karma News" isActive={path === "news"} />
+                    <NavLink link="My Karma" isActive={path === "myKarma"} />
+                    <NavLink link="Charts" isActive={path === "charts"} />
+                    <NavLink link="Radio" isActive={path === "radio"} />
+                    <NavLink link="Contact" isActive={path === "contact"} />
+                    <NavLink link="Login/Register" isActive={path === "login"} />
                 </Nav>
             </BsNavbar.Collapse>
         </BsNavbar>

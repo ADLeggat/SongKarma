@@ -31,21 +31,7 @@
     margin-bottom: 10px;
     background-color: #646263;
 
-    @media (min-width: $screen-size_sm) {
-        // height: 100px;
-    }
-
-    @media (min-width: $screen-size_md) {
-        // height: 110px;
-    }
-
     @media (min-width: $screen-size_lg) {
         height: 70px;
     }
-}
-
-.LinkStyle {
-    text-transform: uppercase;
-    color: #FFF !important;
-    font-weight: 700;
 }
