@@ -19,7 +19,7 @@ const Navbar = (props: Props) => {
             <BsNavbar.Toggle aria-controls="responsive-navbar-nav" />
             <BsNavbar.Collapse id="responsive-navbar-nav">
                 <Nav>
-                    <NavLink link="How it Works" isActive={path === "howItWorks"} />
+                    <NavLink link="How it Works" isActive />
                     <NavLink link="Karma News" isActive={path === "news"} />
                     <NavLink link="My Karma" isActive={path === "myKarma"} />
                     <NavLink link="Charts" isActive={path === "charts"} />
