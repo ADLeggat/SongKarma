@@ -1,0 +1,20 @@
+@import "../../../styles/variables.scss";
+
+.LinkStyle {
+    text-transform: uppercase;
+    color: white !important;
+    font-weight: 700;
+    margin: 0 10px;
+    display: flex;
+
+    @media (min-width: $screen-size_lg) {
+        margin-left: 0;
+        align-items: flex-end;
+        height: 70px;
+    }
+
+    &.Active {
+        color: black !important;
+        background-color: white;
+    }
+}
