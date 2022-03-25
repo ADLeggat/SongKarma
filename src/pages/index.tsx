@@ -4,7 +4,7 @@ import Layout from "../components/Layout";
 const Home: NextPage = () => {
     return (
         <div>
-            <Layout title="Home">
+            <Layout path="/" title="Home">
                 SIGN UP PAGE
             </Layout>
         </div>
