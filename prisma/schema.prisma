@@ -9,17 +9,61 @@ datasource db {
 }
 
 model User {
-    id               String @id @default(auto()) @map("_id") @db.ObjectId
-    email            String @unique
+    id               String   @id @default(auto()) @map("_id") @db.ObjectId
+    email            String   @unique
     artistName       String 
-    username         String @unique
+    username         String   @unique
+    password         String
     artistBio        String?
     profilePic       String?
     receiveNews      Boolean
     authToken        String?
     createdAt        DateTime @default(now())
     updatedAt        DateTime @updatedAt
-    favouriteArtists User[] @relation("ArtistToFavouriteArtists")
-    artist           User? @relation("ArtistToFavouriteArtists", fields: [artistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    favouriteArtists User[]   @relation("ArtistToFavouriteArtists")
+    artist           User?    @relation("ArtistToFavouriteArtists", fields: [artistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
     artistId         String?
+    songs            Song[]
+    socialMedia      SocialMedia[]
+    rating           Rating[]
+}
+
+model Song {
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    user         User     @relation(fields: [userId], references: [id])
+    userId       String   @db.ObjectId
+    bucketLink   String
+    name         String
+    genre        String
+    country      String
+    authors      String
+    players      String
+    producer     String
+    recocordedAt String
+    lyrics       String
+    inspiration  String
+    equipment    String
+    rating       Rating[]
+    createdAt    DateTime @default(now())
+    updatedAt    DateTime @updatedAt
+}
+
+model Rating {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String   @db.ObjectId
+    song      Song     @relation(fields: [songId], references: [id])
+    songId    String   @db.ObjectId
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model SocialMedia {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String   @db.ObjectId
+    name      String
+    link      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
