@@ -54,6 +54,7 @@ model Rating {
     userId    String   @db.ObjectId
     song      Song     @relation(fields: [songId], references: [id])
     songId    String   @db.ObjectId
+    reason    String?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
