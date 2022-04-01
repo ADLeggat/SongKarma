@@ -1,7 +1,7 @@
 import BsNavbar from "react-bootstrap/Navbar";
 import Image from "next/image";
 import Nav from "react-bootstrap/Nav";
-import NavLink from "../NavLink";
+import NavLink from "~/components/Layout/NavLink";
 import styles from "./index.module.scss";
 
 interface Props {
