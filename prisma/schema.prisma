@@ -1,0 +1,25 @@
+generator client {
+    provider = "prisma-client-js"
+    previewFeatures = ["mongoDb"]
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id               String @id @default(auto()) @map("_id") @db.ObjectId
+    email            String @unique
+    artistName       String 
+    username         String @unique
+    artistBio        String?
+    profilePic       String?
+    receiveNews      Boolean
+    authToken        String?
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+    favouriteArtists User[] @relation("ArtistToFavouriteArtists")
+    artist           User? @relation("ArtistToFavouriteArtists", fields: [artistId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    artistId         String?
+}
