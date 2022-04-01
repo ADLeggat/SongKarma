@@ -36,13 +36,13 @@ model Song {
     name         String
     genre        String
     country      String
-    authors      String
-    players      String
-    producer     String
-    recocordedAt String
-    lyrics       String
-    inspiration  String
-    equipment    String
+    authors      String?
+    players      String?
+    producer     String?
+    recocordedAt String?
+    lyrics       String?
+    inspiration  String?
+    equipment    String?
     rating       Rating[]
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
