@@ -1,4 +1,4 @@
-import Layout from "../../components/Layout";
+import Layout from "~/components/Layout";
 const index = () => {
     return (
         <Layout path="news" title="Karma News">
