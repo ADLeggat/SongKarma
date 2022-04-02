@@ -1,10 +1,10 @@
 import { NextPage } from "next";
-import Layout from "../components/Layout";
+import Layout from "~/components/Layout";
 
 const Home: NextPage = () => {
     return (
         <div>
-            <Layout title="Home">
+            <Layout path="/" title="Home">
                 SIGN UP PAGE
             </Layout>
         </div>
