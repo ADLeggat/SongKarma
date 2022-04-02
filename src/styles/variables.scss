@@ -1,5 +1,6 @@
 // screen breakpoints
 $screen-size_xs: 576px;
+$screen-size_xs-before: calc($screen-size_xs - 1px);
 $screen-size_sm: 768px;
 $screen-size_sm-before: calc($screen-size_sm - 1px);
 $screen-size_md: 992px;
