@@ -30,6 +30,7 @@
     padding-bottom: 0;
     margin-bottom: 10px;
     background-color: #646263;
+    z-index: 10;
 
     @media (min-width: $screen-size_lg) {
         height: 70px;
