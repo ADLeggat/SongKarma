@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Head from "./Head";
 import Navbar from "./Navbar";
+import styles from "./index.module.scss";
 
 interface Props {
     children: ReactNode;
@@ -15,7 +16,7 @@ const Layout= (props: Props) => {
         <>
             <Head title={title}/>
             <Navbar path={path}/>
-            <div className="main">
+            <div className={styles.Main}>
                 {children}
             </div>
         </>
