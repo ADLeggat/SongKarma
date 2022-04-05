@@ -14,7 +14,6 @@ const Navbar = (props: Props) => {
 
     return (
         <BsNavbar expand="lg" className={styles.NavStyle}>
-            <Container>
             <BsNavbar.Brand href='/' className={styles.Brand}>
                 <Image src="/brand.png" width={260} height={200}/>
             </BsNavbar.Brand>
@@ -36,7 +35,6 @@ const Navbar = (props: Props) => {
                     }
                 </Nav>
             </BsNavbar.Collapse>
-            </Container>
         </BsNavbar>
     );
 }
