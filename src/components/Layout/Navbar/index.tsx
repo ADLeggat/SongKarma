@@ -3,6 +3,7 @@ import Image from "next/image";
 import Nav from "react-bootstrap/Nav";
 import NavLink from "~/components/Layout/NavLink";
 import styles from "./index.module.scss";
+import { Container } from "react-bootstrap";
 
 interface Props {
     path: string
@@ -13,6 +14,7 @@ const Navbar = (props: Props) => {
 
     return (
         <BsNavbar expand="lg" className={styles.NavStyle}>
+            <Container>
             <BsNavbar.Brand href='/' className={styles.Brand}>
                 <Image src="/brand.png" width={260} height={200}/>
             </BsNavbar.Brand>
@@ -29,9 +31,12 @@ const Navbar = (props: Props) => {
                             <NavLink href="/contact" link="Contact" isActive={path === "contact"} />
                         </>
                     }
-                    <NavLink href="/" link="Login/Register" isActive={path === "login"} />
+                    {path === "/" && 
+                        <NavLink link="Login/Register"/>
+                    }
                 </Nav>
             </BsNavbar.Collapse>
+            </Container>
         </BsNavbar>
     );
 }
