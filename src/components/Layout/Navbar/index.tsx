@@ -3,7 +3,7 @@ import Image from "next/image";
 import Nav from "react-bootstrap/Nav";
 import NavLink from "~/components/Layout/NavLink";
 import styles from "./index.module.scss";
-import { Container } from "react-bootstrap";
+import { protectedRoutes } from "~/util/constants";
 
 interface Props {
     path: string
@@ -11,6 +11,7 @@ interface Props {
 
 const Navbar = (props: Props) => {
     const { path } = props;
+    const isProtectedRoute = protectedRoutes.includes(path);
 
     return (
         <BsNavbar expand="lg" className={styles.NavStyle}>
@@ -20,9 +21,8 @@ const Navbar = (props: Props) => {
             <BsNavbar.Toggle aria-controls="responsive-navbar-nav" />
             <BsNavbar.Collapse id="responsive-navbar-nav">
                 <Nav>
-                    {path !== "/" && 
+                    {isProtectedRoute && 
                         <>
-                            <NavLink href="/howItWorks" link="How it Works" isActive={path === "howItWorks"} />
                             <NavLink href="/news" link="Karma News" isActive={path === "news"} />
                             <NavLink href="/myKarma" link="My Karma" isActive={path === "myKarma"} />
                             <NavLink href="/charts" link="Charts" isActive={path === "charts"} />
@@ -30,8 +30,11 @@ const Navbar = (props: Props) => {
                             <NavLink href="/contact" link="Contact" isActive={path === "contact"} />
                         </>
                     }
-                    {path === "/" && 
-                        <NavLink link="Login/Register"/>
+                    {!isProtectedRoute && 
+                        <>
+                            <NavLink href="/howItWorks" link="How it Works" isActive={path === "howItWorks"} />
+                            <NavLink link="Login/Register"/>
+                        </>
                     }
                 </Nav>
             </BsNavbar.Collapse>
