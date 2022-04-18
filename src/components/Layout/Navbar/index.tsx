@@ -33,7 +33,7 @@ const Navbar = (props: Props) => {
                     {!isProtectedRoute && 
                         <>
                             <NavLink href="/howItWorks" link="How it Works" isActive={path === "howItWorks"} />
-                            <NavLink link="Login/Register"/>
+                            <NavLink href="/auth" link="Login/Register"/>
                         </>
                     }
                 </Nav>
