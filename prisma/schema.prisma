@@ -17,6 +17,7 @@ model User {
     profilePic       String?
     receiveNews      Boolean
     authToken        String?
+    isEmailVerified  Boolean
     createdAt        DateTime @default(now())
     updatedAt        DateTime @updatedAt
     favouriteArtists User[]   @relation("ArtistToFavouriteArtists")
