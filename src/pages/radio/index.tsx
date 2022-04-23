@@ -1,7 +1,21 @@
 import Layout from "~/components/Layout";
-const index = () => {
+import { GetServerSideProps } from "next";
+import { getPropsOrRedirect } from "~/util";
+import { Session } from "next-auth";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return getPropsOrRedirect(context.req, { path: "/radio" });
+};
+
+interface Props {
+    path: string;
+    session: Session;
+};
+
+const index = (props: Props) => {
+    const { path, session } = props;
     return (
-        <Layout path="radio" title="Radio">
+        <Layout path={path} session={session} title="Radio">
             RADIO
         </Layout>
     );

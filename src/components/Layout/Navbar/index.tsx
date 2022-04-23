@@ -3,15 +3,16 @@ import Image from "next/image";
 import Nav from "react-bootstrap/Nav";
 import NavLink from "~/components/Layout/NavLink";
 import styles from "./index.module.scss";
-import { protectedRoutes } from "~/util/constants";
+import { protectedRoutes } from "~/util";
+import { Session } from "next-auth";
 
 interface Props {
-    path: string
+    path: string;
+    session: Session
 };
 
 const Navbar = (props: Props) => {
-    const { path } = props;
-    const isProtectedRoute = protectedRoutes.includes(path);
+    const { path, session } = props;
 
     return (
         <BsNavbar expand="lg" className={styles.NavStyle}>
@@ -21,19 +22,20 @@ const Navbar = (props: Props) => {
             <BsNavbar.Toggle aria-controls="responsive-navbar-nav" />
             <BsNavbar.Collapse id="responsive-navbar-nav">
                 <Nav>
-                    {isProtectedRoute && 
+                    <NavLink href="/howItWorks" link="How it Works" isActive={path === "/howItWorks"} />
+                    
+                    {session &&
                         <>
-                            <NavLink href="/news" link="Karma News" isActive={path === "news"} />
-                            <NavLink href="/myKarma" link="My Karma" isActive={path === "myKarma"} />
-                            <NavLink href="/charts" link="Charts" isActive={path === "charts"} />
-                            <NavLink href="/radio" link="Radio" isActive={path === "radio"} />
-                            <NavLink href="/contact" link="Contact" isActive={path === "contact"} />
+                            <NavLink href="/news" link="Karma News" isActive={path === "/news"} />
+                            <NavLink href="/myKarma" link="My Karma" isActive={path === "/myKarma"} />
+                            <NavLink href="/charts" link="Charts" isActive={path === "/charts"} />
+                            <NavLink href="/radio" link="Radio" isActive={path === "/radio"} />
+                            <NavLink href="/contact" link="Contact" isActive={path === "/contact"} />
                         </>
                     }
-                    {!isProtectedRoute && 
+                    {!session && 
                         <>
-                            <NavLink href="/howItWorks" link="How it Works" isActive={path === "howItWorks"} />
-                            <NavLink href="/auth" link="Login/Register" isActive={path === "auth"} />
+                            <NavLink href="/auth" link="Login/Register" isActive={path === "/auth"} />
                         </>
                     }
                 </Nav>

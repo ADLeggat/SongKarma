@@ -1,13 +1,14 @@
 import { IncomingMessage } from "http";
 import { getSession } from "next-auth/react";
+import { protectedRoutes } from "./constants";
 
 export const getPropsOrRedirect = async (req: IncomingMessage, props: any) => {
     const session = await getSession({ req });
 
-    if(!session && props.path !== "/") {
-        return loggedOutRedirect();
-    } else if(session && props.path === "auth") {
-        return loggedInRedirect();
+    if(!session && protectedRoutes.includes(props.path)) {
+        return redirect("/");
+    } else if(session && props.path === "/auth") {
+        return redirect("/myKarma");
     }
 
     return {
@@ -18,20 +19,11 @@ export const getPropsOrRedirect = async (req: IncomingMessage, props: any) => {
     };
 };
 
-const loggedOutRedirect = () => {
+const redirect = (path: string) => {
     return {
         redirect: {
-            destination: "/",
+            destination: path,
             permanent: false,
         }
     }
-};
-
-const loggedInRedirect = () => {
-    return {
-        redirect: {
-            destination: "/myKarma",
-            permanent: false,
-        }
-    }
-};
+}

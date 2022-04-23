@@ -1,6 +1,6 @@
 import { BaseSyntheticEvent } from "react";
 import Router from "next/router";
-import { getSession, signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { Formik, Field } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
 import FieldErrorMessage from "~/components/UI/FieldErrorMessage";
