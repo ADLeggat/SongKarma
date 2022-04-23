@@ -1,7 +1,8 @@
 import { BaseSyntheticEvent } from "react";
+import { signIn } from 'next-auth/react';
 import { Formik, Field } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { passwordValidation, userDetailsValidation } from "~/util";
+import { attempt, Auth, passwordValidation, userDetailsValidation } from "~/util";
 import FieldErrorMessage from "~/components/UI/FieldErrorMessage";
 
 interface Props {
@@ -36,8 +37,17 @@ const index = (props: Props) => {
         receiveNews: false
     };
 
-    const onSubmit = (fields: FormFields) => {
-    }
+    const onSubmit = async (fields: FormFields) => {
+        signIn(Auth.CREDENTIALS, {
+            email: fields.email,
+            password: fields.password
+        })
+        attempt(() => signUp(fields), () => {});
+    };
+
+    const signUp = async (fields: unknown) => {
+        const res = await signUp(fields);
+    };
 
     const onImageUpload = (e: BaseSyntheticEvent) => {
         if (!e.target.files) {
