@@ -13,7 +13,7 @@ export default NextAuth({
                 const res = await login(credentials);
                 if(res.user) {
                     //return res.user;
-                    return { username: "TEST USER" };
+                    return { id: 1, username: "TEST!! USER" };
                 } else {
                     throw new Error(res.message);
                 }
@@ -23,7 +23,7 @@ export default NextAuth({
     callbacks: {
         jwt: async ({ token, user }) => {
             if(user) {
-                token = {...token, ...user};
+                token = {...token, user};
             }
             return token;
         },
