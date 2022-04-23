@@ -1,9 +1,10 @@
 import { BaseSyntheticEvent } from "react";
-import { signIn } from 'next-auth/react';
+import Router from "next/router";
+import { getSession, signIn } from 'next-auth/react';
 import { Formik, Field } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { attempt, Auth, passwordValidation, userDetailsValidation } from "~/util";
 import FieldErrorMessage from "~/components/UI/FieldErrorMessage";
+import { attempt, Auth, passwordValidation, signup, userDetailsValidation } from "~/util";
 
 interface Props {
     setHasAccount: (hasAccount: boolean) => void
@@ -38,15 +39,20 @@ const index = (props: Props) => {
     };
 
     const onSubmit = async (fields: FormFields) => {
-        signIn(Auth.CREDENTIALS, {
-            email: fields.email,
-            password: fields.password
-        })
-        attempt(() => signUp(fields), () => {});
+        attempt(() => doSignUp(fields), () => {});
     };
 
-    const signUp = async (fields: unknown) => {
-        const res = await signUp(fields);
+    const doSignUp = async (fields: FormFields) => {
+        const res = await signup(fields);
+        if(!res.success) {
+
+        } else {
+            await signIn(Auth.CREDENTIALS, {
+                email: fields.email,
+                password: fields.password
+            });
+            Router.push("/myKarma");
+        }
     };
 
     const onImageUpload = (e: BaseSyntheticEvent) => {
