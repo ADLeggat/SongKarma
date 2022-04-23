@@ -9,16 +9,18 @@ export const PUT = "PUT";
 export const PATCH = "PATCH";
 export const DELETE = "DELETE";
 
-export const doCallout = async (method: string, endpoint: string, body: unknown=null) => {
+export const doCallout = async (method: string, endpoint: string, body?: unknown) => {
+    const params: RequestInit = {
+        method,
+        headers: HEADERS
+    };
+
     if(body) {
-        body = JSON.stringify(body);
+        params.body = JSON.stringify(body);
     }
 
-    const res = await fetch(endpoint, {
-        method,
-        headers: HEADERS,
-        body: body as BodyInit
-    });
+    const res = await fetch(endpoint, params);
+
     if(!res.ok){
         throw new Error(res.statusText);
     } else {
