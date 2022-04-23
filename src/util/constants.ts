@@ -15,3 +15,7 @@ export class UserEntity {
     static ARTIST_NAME = "artist name";
     static PASSWORDS_MUST_MATCH = "Passwords must match";
 };
+
+export class Auth {
+    static CREDENTIALS = "credentials";
+}
