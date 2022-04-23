@@ -1,10 +1,9 @@
-import { NextPage } from "next";
 import Image from "next/image";
 import Container from "react-bootstrap/Container";
 import Layout from "~/components/Layout";
 import styles from "./index.module.scss";
 
-const Home: NextPage = () => {
+const index = () => {
     return (
         <div>
             <Layout path="/" title="Home">
@@ -24,4 +23,4 @@ const Home: NextPage = () => {
     );
 };
 
-export default Home;
+export default index;
