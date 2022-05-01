@@ -1,6 +1,6 @@
 import { NextApiResponse } from "next";
 import { User } from "@prisma/client";
-import db from "../../prisma/prisma";
+import prisma from "../../prisma/prisma";
 import { 
     ApiRequest, buildResponse, createWithValidation, generateToken, passwordValidation, userDetailsValidation, UserEntity 
 } from "~/util";
@@ -17,8 +17,8 @@ interface SessionUser {
 export const signup = async (req: ApiRequest, res: NextApiResponse) => {
     req.validations = userDetailsValidation.concat(passwordValidation);
 
-    return createWithValidation(req, res, UserEntity.TABLE_NAME, async () => {
-        let user = await db.user.findUnique({
+    return await createWithValidation(req, res, UserEntity.TABLE_NAME, async () => {
+        let user = await prisma.user.findUnique({
             where: {
                 email: req.body.email
             }
@@ -26,9 +26,11 @@ export const signup = async (req: ApiRequest, res: NextApiResponse) => {
 
         if(!user) {
             const authToken = await generateToken(32);
-            user = await db.user.create({
+            delete req.body.confirmPassword;
+            user = await prisma.user.create({
                 data: {
                     ...req.body,
+                    isEmailVerified: false,
                     authToken
                 }
             });
