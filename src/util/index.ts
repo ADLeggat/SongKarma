@@ -5,13 +5,12 @@ export * from "./crud";
 export * from "./formValidation";
 export * from "./user";
 
-// export type VoidPromiseFunction = (...params: unknown[]) => Promise<void>;
-export type VoidPromiseFunction = () => Promise<any>;
+export type AnyPromiseFunction = () => Promise<any>;
 export type OnError = (err: Error) => any;
 
-export const tryCatchAsync = async (func: VoidPromiseFunction, onError: OnError) => {
+export const tryCatchAsync = async (func: AnyPromiseFunction, onError: OnError) => {
     try {
-        await func();
+        return await func();
     } catch(err) {
         onError(err as Error);
     }
