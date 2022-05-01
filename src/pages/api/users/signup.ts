@@ -1,11 +1,13 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { POST } from "~/util";
+import { NextApiResponse } from "next";
+import { signup } from "~/controllers/user";
+import { ApiRequest, POST } from "~/util";
 
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(req: ApiRequest, res: NextApiResponse) {
     switch(req.method) {
         case POST:
-            return res.send({success: true});
+            const signupRes = await signup(req, res);
+            return res.send(signupRes);
     }
 };
 
