@@ -4,10 +4,11 @@ export * from "./constants";
 export * from "./formValidation";
 export * from "./user";
 
-export type VoidPromiseFunction = (...params: unknown[]) => Promise<void>;
+// export type VoidPromiseFunction = (...params: unknown[]) => Promise<void>;
+export type VoidPromiseFunction = () => Promise<void>;
 export type OnError = (err: Error) => void;
 
-export const attempt = async (func: VoidPromiseFunction, onError: OnError) => {
+export const tryCatchAsync = async (func: VoidPromiseFunction, onError: OnError) => {
     try {
         await func();
     } catch(err) {

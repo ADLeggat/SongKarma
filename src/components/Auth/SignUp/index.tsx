@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react';
 import { Formik, Field } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
 import FieldErrorMessage from "~/components/UI/FieldErrorMessage";
-import { attempt, Auth, passwordValidation, signup, userDetailsValidation } from "~/util";
+import { Auth, passwordValidation, signup, tryCatchAsync, userDetailsValidation } from "~/util";
 
 interface Props {
     setHasAccount: (hasAccount: boolean) => void
@@ -39,7 +39,7 @@ const index = (props: Props) => {
     };
 
     const onSubmit = async (fields: FormFields) => {
-        attempt(() => doSignUp(fields), () => {});
+        tryCatchAsync(() => doSignUp(fields), () => {});
     };
 
     const doSignUp = async (fields: FormFields) => {
