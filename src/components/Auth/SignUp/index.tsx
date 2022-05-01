@@ -39,7 +39,7 @@ const index = (props: Props) => {
     };
 
     const onSubmit = async (fields: FormFields) => {
-        tryCatchAsync(() => doSignUp(fields), () => {});
+        tryCatchAsync(async () => doSignUp(fields), (err) => console.log(err));
     };
 
     const doSignUp = async (fields: FormFields) => {
