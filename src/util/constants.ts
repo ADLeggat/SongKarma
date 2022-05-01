@@ -6,6 +6,15 @@ export const protectedRoutes = [
     "/contact"
 ]; 
 
+export class Crud {
+    static CREATING = "creating";
+    static CREATED = "created";
+    static UPDATING = "updating";
+    static UPDATED = "updated";
+    static DELETING = "deleting";
+    static DELETED = "deleted";
+} 
+
 export class UserEntity {
     static TABLE_NAME = "user";
     static PASSWORD = "password";
