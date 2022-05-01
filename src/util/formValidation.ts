@@ -1,5 +1,15 @@
+import { NextApiRequest } from "next";
 import * as yup from 'yup';
-import { UserEntity } from "./constants";
+import { ApiRequest, tryCatchAsync, UserEntity } from "~/util";
+
+export const validate = async (req: ApiRequest) => {
+    const { validations, body } = req;
+    tryCatchAsync(
+        () => validations.validate(body, { abortEarly: false }), 
+        err => (err as yup.ValidationError).errors
+    );
+    return [];
+};
 
 const isRequired = (table: string, field: string) => {
     const formattedTable = table === "user"? "": `${table}'s`;
