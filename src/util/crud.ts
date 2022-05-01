@@ -23,3 +23,10 @@ const getValidationErrorMessage = (tableName: string, errors: string[]) => {
 const getCrudErrorMessage = (tableName: string, operation: string) => {
     return `There was a problem ${operation} the ${tableName}`;
 };
+
+export const buildResponse = (success: boolean, data: any) => {
+    return {
+        success,
+        data
+    };
+}
