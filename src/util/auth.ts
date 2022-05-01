@@ -1,5 +1,7 @@
 import { IncomingMessage } from "http";
 import { getSession } from "next-auth/react";
+import { promisify } from "util";
+import { randomBytes } from "crypto";
 import { protectedRoutes } from "./constants";
 
 export const getPropsOrRedirect = async (req: IncomingMessage, props: any) => {
@@ -26,4 +28,11 @@ const redirect = (path: string) => {
             permanent: false,
         }
     }
-}
+};
+
+export const generateToken = async (size: number) => {
+    const getRandomBytes = promisify(randomBytes);
+    const buffer = await getRandomBytes(size);
+    const token = buffer.toString('hex');
+    return token;
+};
