@@ -1,8 +1,9 @@
 import { NextApiResponse } from "next";
-import { User } from "@prisma/client";
+import { hashSync } from "bcryptjs";
 import prisma from "../../prisma/prisma";
 import { 
-    ApiRequest, buildResponse, createWithValidation, generateToken, passwordValidation, userDetailsValidation, UserEntity 
+    ApiRequest, buildResponse, createWithValidation, generateToken, passwordValidation, userDetailsValidation, 
+    UserEntity, UserFormFields
 } from "~/util";
 
 interface LoginResponse {
@@ -25,16 +26,7 @@ export const signup = async (req: ApiRequest, res: NextApiResponse) => {
         });
 
         if(!user) {
-            const authToken = await generateToken(32);
-            delete req.body.confirmPassword;
-            user = await prisma.user.create({
-                data: {
-                    ...req.body,
-                    isEmailVerified: false,
-                    authToken
-                }
-            });
-            const sessionUser = createSessionUser(user);
+            const sessionUser = await createUser(req.body);
             return buildResponse(true, sessionUser);
         } else {
             return buildResponse(false, null);
@@ -42,7 +34,23 @@ export const signup = async (req: ApiRequest, res: NextApiResponse) => {
     });
 };
 
-const createSessionUser = (user: User) => {
+const createUser = async (data: UserFormFields) => {
+// upload profile pic to S3
+    // save url to user
+    const authToken = await generateToken(32);
+    const user = await prisma.user.create({
+        data: {
+            email: data.email,
+            password: hashSync(data.password, 12),
+            username: data.username,
+            artistName: data.artistName,
+            artistBio: data.artistBio,
+            receiveNews: data.receiveNews,
+            isEmailVerified: false,
+            authToken
+        }
+    });
+
     return {
         id: user.id,
         username: user.username

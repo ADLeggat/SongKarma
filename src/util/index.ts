@@ -12,6 +12,6 @@ export const tryCatchAsync = async (func: AnyPromiseFunction, onError: OnError) 
     try {
         return await func();
     } catch(err) {
-        onError(err as Error);
+        return onError(err as Error);
     }
 };

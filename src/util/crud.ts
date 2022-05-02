@@ -4,7 +4,7 @@ import { Crud } from "./constants";
 import { validate } from "./formValidation";
 
 
-export const createWithValidation = async (req: ApiRequest, res: NextApiResponse, tableName: string, func: Function) => {
+export const createWithValidation = async (req: ApiRequest, res: NextApiResponse, tableName: string, create: Function) => {
     const errors = await validate(req);
     if(errors.length !== 0){
         return getValidationErrorMessage(tableName, errors);
@@ -12,7 +12,7 @@ export const createWithValidation = async (req: ApiRequest, res: NextApiResponse
 
     return await tryCatchAsync(
         async () => { 
-            const response = await func();
+            const response = await create();
             return response;
         }, 
         err => getCrudErrorMessage(tableName, Crud.CREATING)
