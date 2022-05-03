@@ -1,8 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useState } from "react";
 import Layout from "~/components/Layout";
-import SignIn from "~/components/Auth/SignIn";
-import SignUp from "~/components/Auth/SignUp";
+import { SignIn, SignUp } from "~/components/Auth";
 import { Session } from "next-auth";
 import { getPropsOrRedirect } from "~/util";
 
