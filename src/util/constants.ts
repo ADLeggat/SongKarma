@@ -14,15 +14,7 @@ export class Routes {
         this.RADIO,
         this.CONTACT
     ];
-}
-
-export const protectedRoutes = [
-    "/news",
-    "/myKarma",
-    "/charts",
-    "/radio",
-    "/contact"
-]; 
+};
 
 export class Crud {
     static CREATING = "creating";
