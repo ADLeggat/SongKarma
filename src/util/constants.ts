@@ -1,3 +1,21 @@
+export class Routes {
+    static AUTH = "/auth";
+    static HOW_IT_WORKS = "/howItWorks";
+    static NEWS = "/news";
+    static MY_KARMA = "/myKarma";
+    static CHARTS = "/charts";
+    static RADIO = "/radio";
+    static CONTACT = "/contact";
+
+    static PROTECTED = [
+        this.NEWS, 
+        this.MY_KARMA,
+        this.CHARTS,
+        this.RADIO,
+        this.CONTACT
+    ];
+}
+
 export const protectedRoutes = [
     "/news",
     "/myKarma",
