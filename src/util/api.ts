@@ -13,7 +13,13 @@ export const PATCH = "PATCH";
 export const DELETE = "DELETE";
 
 export interface ApiRequest extends NextApiRequest {
-    validations: ObjectSchema<any, any, any, any>
+    validations?: ObjectSchema<any, any, any, any>
+};
+
+interface ApiResponse {
+    success: boolean;
+    message?: string;
+    data?: any;
 };
 
 export const doCallout = async (method: string, endpoint: string, body?: unknown) => {
@@ -34,5 +40,17 @@ export const doCallout = async (method: string, endpoint: string, body?: unknown
         const data = await res.json();
         return data;
     }
-    
 };
+
+export const createJsonPayload = (success: boolean, message: string, data: any=null) => {
+    const payload: ApiResponse = {
+        success,
+        message
+    };
+
+    if(data){
+        payload.data = data;
+    }
+
+    return payload;
+}
