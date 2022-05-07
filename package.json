@@ -9,7 +9,7 @@
     "lint": "next lint",
     "test": "jest --passWithNoTests",
     "db:update": "dotenv -e .env.local npx prisma db push",
-    "db:explore": "npx prisma studio"
+    "db:explore": "dotenv -e .env.local  npx prisma studio"
   },
   "dependencies": {
     "@prisma/client": "^3.11.1",
