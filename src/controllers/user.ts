@@ -35,26 +35,28 @@ export const signup = async (req: ApiRequest, res: NextApiResponse) => {
 };
 
 const createUser = async (data: UserFormFields) => {
-// upload profile pic to S3
-    // save url to user
-    const authToken = await generateToken(32);
-    const user = await prisma.user.create({
-        data: {
-            email: data.email,
-            password: hashSync(data.password, 12),
-            username: data.username,
-            artistName: data.artistName,
-            artistBio: data.artistBio,
-            receiveNews: data.receiveNews,
-            isEmailVerified: false,
-            authToken
-        }
-    });
-
-    return {
-        id: user.id,
-        username: user.username
-    };
+    try {
+        const authToken = await generateToken(32);
+        const user = await prisma.user.create({
+            data: {
+                email: data.email,
+                password: hashSync(data.password, 12),
+                username: data.username,
+                artistName: data.artistName,
+                artistBio: data.artistBio,
+                receiveNews: data.receiveNews,
+                isEmailVerified: false,
+                authToken
+            }
+        });
+    
+        return {
+            id: user.id,
+            username: user.username
+        };
+    } catch(err) {
+        // return error respnose
+    }
 };
 
 export const login = async (credentials: Record<string, string>): Promise<LoginResponse> => {
