@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { userSignInValidation } from "~/util";
-import FieldErrorMessage from "~/components/UI/FieldErrorMessage";
+import { FieldErrorMessage } from "~/components/UI";
 
 interface Props {
     setHasAccount: (hasAccount: boolean) => void
