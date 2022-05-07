@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useState } from "react";
+import { useState } from "react";
 import Router from "next/router";
 import { signIn } from 'next-auth/react';
 import { Formik, Field } from 'formik';
