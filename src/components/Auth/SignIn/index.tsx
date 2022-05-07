@@ -2,7 +2,7 @@ import { Formik } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { Auth, Routes, tryCatchAsync, UserLoginFormFields, userSignInValidation } from "~/util";
 import { FieldErrorMessage } from "~/components/UI";
-import { signIn, SignInResponse } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Router from "next/router";
 
 interface Props {

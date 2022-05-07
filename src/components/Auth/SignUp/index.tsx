@@ -12,7 +12,6 @@ interface Props {
 
 const index = (props: Props) => {
     const { setHasAccount } = props;
-    const [image, setImage] = useState("");
 
     const validation = userDetailsValidation
         .concat(passwordValidation);
@@ -32,8 +31,6 @@ const index = (props: Props) => {
     };
 
     const doSignUp = async (fields: UserDetailsFormFields) => {
-        fields.profilePic = image;
-
         const res = await signup(fields);
         if(!res.success) {
             // ERROR MESSAGE
