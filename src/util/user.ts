@@ -1,6 +1,6 @@
 import { doCallout, POST } from "~/util/api";
 
-export interface UserFormFields {
+export interface UserDetailsFormFields {
     email: string;
     password: string;
     confirmPassword: string;

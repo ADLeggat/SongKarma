@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react';
 import { Formik, Field } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { FieldErrorMessage } from "~/components/UI";
-import { Auth, passwordValidation, signup, tryCatchAsync, userDetailsValidation, UserFormFields } from "~/util";
+import { Auth, passwordValidation, signup, tryCatchAsync, userDetailsValidation, UserDetailsFormFields } from "~/util";
 
 interface Props {
     setHasAccount: (hasAccount: boolean) => void
@@ -17,7 +17,7 @@ const index = (props: Props) => {
     const validation = userDetailsValidation
         .concat(passwordValidation);
 
-    const initialValues: UserFormFields = {
+    const initialValues: UserDetailsFormFields = {
         email: "",
         password: "",
         confirmPassword: "",
@@ -27,11 +27,11 @@ const index = (props: Props) => {
         receiveNews: false
     };
 
-    const onSubmit = async (fields: UserFormFields) => {
+    const onSubmit = async (fields: UserDetailsFormFields) => {
         tryCatchAsync(async () => doSignUp(fields), (err) => console.log(err));
     };
 
-    const doSignUp = async (fields: UserFormFields) => {
+    const doSignUp = async (fields: UserDetailsFormFields) => {
         fields.profilePic = image;
 
         const res = await signup(fields);

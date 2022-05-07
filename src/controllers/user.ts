@@ -3,7 +3,7 @@ import { hashSync } from "bcryptjs";
 import prisma from "../../prisma/prisma";
 import { 
     ApiRequest, buildResponse, createWithValidation, generateToken, passwordValidation, userDetailsValidation, 
-    UserEntity, UserFormFields
+    UserEntity, UserDetailsFormFields
 } from "~/util";
 
 interface LoginResponse {
@@ -34,7 +34,7 @@ export const signup = async (req: ApiRequest, res: NextApiResponse) => {
     });
 };
 
-const createUser = async (data: UserFormFields) => {
+const createUser = async (data: UserDetailsFormFields) => {
     try {
         const authToken = await generateToken(32);
         const user = await prisma.user.create({
