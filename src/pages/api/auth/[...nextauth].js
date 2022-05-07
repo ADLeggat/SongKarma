@@ -12,8 +12,7 @@ export default NextAuth({
             async authorize(credentials) {
                 const res = await login(credentials);
                 if(res.user) {
-                    //return res.user;
-                    return { id: 1, username: "TEST!! USER" };
+                    return res.user;
                 } else {
                     throw new Error(res.message);
                 }
