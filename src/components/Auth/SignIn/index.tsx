@@ -1,7 +1,9 @@
 import { Formik } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { userSignInValidation } from "~/util";
+import { Auth, Routes, tryCatchAsync, UserLoginFormFields, userSignInValidation } from "~/util";
 import { FieldErrorMessage } from "~/components/UI";
+import { signIn, SignInResponse } from "next-auth/react";
+import Router from "next/router";
 
 interface Props {
     setHasAccount: (hasAccount: boolean) => void
@@ -15,7 +17,24 @@ const index = (props: Props) => {
         password: ""
     };
 
-    const onSubmit = () => {}
+    const onSubmit = (fields: UserLoginFormFields) => {
+        tryCatchAsync(() => doSignIn(fields), () => {});
+    };
+
+    const doSignIn = async (fields: UserLoginFormFields) => {
+        const res = await signIn(Auth.CREDENTIALS, {
+            redirect: false,
+            email: fields.email,
+            password: fields.password
+        }) ; 
+
+        // @ts-ignore
+        if(res.error) {
+
+        } else {
+            Router.push(Routes.MY_KARMA);
+        }
+    };
 
     return (
         <div className="centre mt-5">
