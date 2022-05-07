@@ -2,12 +2,12 @@ import { IncomingMessage } from "http";
 import { getSession } from "next-auth/react";
 import { promisify } from "util";
 import { randomBytes } from "crypto";
-import { protectedRoutes } from "./constants";
+import { Routes } from "./constants";
 
 export const getPropsOrRedirect = async (req: IncomingMessage, props: any) => {
     const session = await getSession({ req });
 
-    if(!session && protectedRoutes.includes(props.path)) {
+    if(!session && Routes.PROTECTED.includes(props.path)) {
         return redirect("/");
     } else if(session && props.path === "/auth") {
         return redirect("/myKarma");
