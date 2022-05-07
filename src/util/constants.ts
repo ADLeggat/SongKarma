@@ -37,4 +37,8 @@ export class UserEntity {
 
 export class Auth {
     static CREDENTIALS = "credentials";
+};
+
+export class Api {
+    static GENERIC_SUCCESS_MESSAGE = "Success";
 }
