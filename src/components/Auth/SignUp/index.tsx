@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent } from "react";
+import { BaseSyntheticEvent, useState } from "react";
 import Router from "next/router";
 import { signIn } from 'next-auth/react';
 import { Formik, Field } from 'formik';
@@ -12,18 +12,18 @@ interface Props {
 
 const index = (props: Props) => {
     const { setHasAccount } = props;
+    const [image, setImage] = useState("");
 
     const validation = userDetailsValidation
         .concat(passwordValidation);
 
-    const initialValues = {
+    const initialValues: UserFormFields = {
         email: "",
         password: "",
         confirmPassword: "",
         username: "",
         artistName: "",
         artistBio: "",
-        profilePic: "", // url to location, e.g. S3 link
         receiveNews: false
     };
 
@@ -32,9 +32,11 @@ const index = (props: Props) => {
     };
 
     const doSignUp = async (fields: UserFormFields) => {
+        fields.profilePic = image;
+
         const res = await signup(fields);
         if(!res.success) {
-
+            // ERROR MESSAGE
         } else {
             await signIn(Auth.CREDENTIALS, {
                 email: fields.email,
@@ -43,12 +45,6 @@ const index = (props: Props) => {
             Router.push("/myKarma");
         }
     };
-
-    const onImageUpload = (e: BaseSyntheticEvent) => {
-        if (!e.target.files) {
-            return;
-        }
-    }
 
     return (
         <div className="centre mt-5">
@@ -102,10 +98,6 @@ const index = (props: Props) => {
                                         isInvalid={!!(touched.artistBio && errors.artistBio)} 
                                         value={values.artistBio} onChange={handleChange}/>
                                     <FieldErrorMessage message={errors.artistBio} touched={touched.artistBio}/>
-                                </Form.Group>
-                                <Form.Group controlId="profilePic" className="mt-3">
-                                    <Form.Label>Profile Picture</Form.Label>
-                                    <Form.Control type="file" name="profilePic" onChange={(e) => onImageUpload(e)}/>
                                 </Form.Group>
                                 <Form.Group controlId="receiveNews" className="mt-3">
                                     <Field id="receiveNews" type="checkbox" name="receiveNews" onChange={handleChange}/>
