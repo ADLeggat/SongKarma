@@ -1,10 +1,11 @@
 import { NextApiResponse } from "next";
-import { hashSync } from "bcryptjs";
+import { compare, hashSync } from "bcryptjs";
 import prisma from "../../prisma/prisma";
 import { 
     ApiRequest, buildResponse, createWithValidation, generateToken, passwordValidation, userDetailsValidation, 
-    UserEntity, UserDetailsFormFields
+    UserEntity, UserDetailsFormFields, createJsonPayload, Api
 } from "~/util";
+import { User } from "next-auth";
 
 interface LoginResponse {
     user: SessionUser
@@ -19,11 +20,7 @@ export const signup = async (req: ApiRequest, res: NextApiResponse) => {
     req.validations = userDetailsValidation.concat(passwordValidation);
 
     return await createWithValidation(req, res, UserEntity.TABLE_NAME, async () => {
-        let user = await prisma.user.findUnique({
-            where: {
-                email: req.body.email
-            }
-        });
+        let user = await findUserByEmail(req.body.email);
 
         if(!user) {
             const sessionUser = await createUser(req.body);
@@ -50,15 +47,50 @@ const createUser = async (data: UserDetailsFormFields) => {
             }
         });
     
-        return {
-            id: user.id,
-            username: user.username
-        };
+        return getSessionUser(user);
     } catch(err) {
+        console.log(err);
         // return error respnose
     }
 };
 
-export const login = async (credentials: Record<string, string>): Promise<LoginResponse> => {
-    return { user: { id: "1", username: "test" } };
+export const login = async (credentials: Record<string, string>) => {
+    const { email, password } = credentials;
+
+    try{
+        const user = await findUserByEmail(email);
+        if(user) {
+            return await getSessionUserIfPasswordMatch(user, password);
+        } else {
+            return createJsonPayload(false, UserEntity.NO_USER_FOUND);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+const getSessionUserIfPasswordMatch = async (user: User, password: string) => {
+    const passwordsMatch = await compare(password, user.password);
+
+    if(passwordsMatch){
+        const sessionUser = getSessionUser(user);
+        return createJsonPayload(true, Api.GENERIC_SUCCESS_MESSAGE, sessionUser);
+    } else {
+        return createJsonPayload(false, UserEntity.PASSWORD_ENTERED_INCORRECTLY, null);
+    }
+};
+
+const findUserByEmail = async (email: string) => {
+    return await prisma.user.findUnique({
+        where: {
+            email
+        }
+    });
+};
+
+const getSessionUser = (user: User) => {
+    return {
+        id: user.id,
+        username: user.username
+    };
 };
