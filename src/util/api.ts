@@ -16,7 +16,7 @@ export interface ApiRequest extends NextApiRequest {
     validations?: ObjectSchema<any, any, any, any>
 };
 
-interface ApiResponse {
+export interface ApiResponse {
     success: boolean;
     message?: string;
     data?: any;
