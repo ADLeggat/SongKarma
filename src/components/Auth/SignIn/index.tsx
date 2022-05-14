@@ -6,11 +6,12 @@ import { signIn } from "next-auth/react";
 import Router from "next/router";
 
 interface Props {
-    setHasAccount: (hasAccount: boolean) => void
+    setHasAccount(hasAccount: boolean): void;
+    updateMessage(setShowModal: Function|null, success: boolean, message: string): void;
 }
 
 const index = (props: Props) => {
-    const { setHasAccount } = props;
+    const { setHasAccount, updateMessage } = props;
 
     const initialValues = {
         email: "",
@@ -30,7 +31,8 @@ const index = (props: Props) => {
 
         // @ts-ignore
         if(res.error) {
-
+            // @ts-ignore
+            updateMessage(null, false, res.error); 
         } else {
             Router.push(Routes.MY_KARMA);
         }

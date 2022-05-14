@@ -12,7 +12,7 @@ function index(WrappedComponent: any) {
     return (props: AppProps) => {
         const [messageData, setMessageData] = useState<MessageData|null>(null);
 
-        const updateMessage = (setShowModal: Function, success: boolean, message: string) => {
+        const updateMessage = (setShowModal: Function|null, success: boolean, message: string) => {
             setShowModal && setShowModal(null);
             setMessageData({
                 title: success? "Success" : "Error",
