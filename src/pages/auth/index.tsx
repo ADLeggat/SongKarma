@@ -24,7 +24,7 @@ const index = (props: Props) => {
         <Layout path={path} session={session} title="Auth">
             {hasAccount ? 
                 <SignIn setHasAccount={setHasAccount} updateMessage={updateMessage}/> : 
-                <SignUp setHasAccount={setHasAccount}/>
+                <SignUp setHasAccount={setHasAccount} updateMessage={updateMessage}/>
             }
         </Layout>
     );

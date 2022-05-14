@@ -1,5 +1,4 @@
-import { useState } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { signIn } from 'next-auth/react';
 import { Formik, Field } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
@@ -7,11 +6,13 @@ import { FieldErrorMessage } from "~/components/UI";
 import { Auth, passwordValidation, signup, tryCatchAsync, userDetailsValidation, UserDetailsFormFields } from "~/util";
 
 interface Props {
-    setHasAccount: (hasAccount: boolean) => void
+    setHasAccount(hasAccount: boolean): void;
+    updateMessage(setShowModal: Function|null, success: boolean, message: string): void;
 };
 
 const index = (props: Props) => {
-    const { setHasAccount } = props;
+    const { setHasAccount, updateMessage } = props;
+    const router = useRouter();
 
     const validation = userDetailsValidation
         .concat(passwordValidation);
@@ -27,19 +28,24 @@ const index = (props: Props) => {
     };
 
     const onSubmit = async (fields: UserDetailsFormFields) => {
-        tryCatchAsync(async () => doSignUp(fields), (err) => console.log(err));
+        tryCatchAsync(
+            async () => await doSignUp(fields), 
+            err => updateMessage(null, false, err.message)
+        );
     };
 
     const doSignUp = async (fields: UserDetailsFormFields) => {
         const res = await signup(fields);
+
         if(!res.success) {
-            // ERROR MESSAGE
+            // @ts-ignore
+            updateMessage(null, false, res.message); 
         } else {
             await signIn(Auth.CREDENTIALS, {
                 email: fields.email,
                 password: fields.password
             });
-            Router.push("/myKarma");
+            router.push("/myKarma");
         }
     };
 

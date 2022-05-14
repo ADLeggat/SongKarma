@@ -59,7 +59,7 @@ export const createJsonPayload = (success: boolean, message: string, data: any=n
 };
 
 const getStatusCode = (success: boolean, resMessage: string) => {
-    let code = success? 200 : 400;
+    let code = 200;
 
     if(resMessage.includes(Crud.CREATED)) {
         code = 201;
