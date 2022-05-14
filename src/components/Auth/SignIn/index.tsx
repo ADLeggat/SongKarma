@@ -3,7 +3,7 @@ import { Button, Col, Form, Row } from "react-bootstrap";
 import { Auth, Routes, tryCatchAsync, UserLoginFormFields, userSignInValidation } from "~/util";
 import { FieldErrorMessage } from "~/components/UI";
 import { signIn } from "next-auth/react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 interface Props {
     setHasAccount(hasAccount: boolean): void;
@@ -12,6 +12,8 @@ interface Props {
 
 const index = (props: Props) => {
     const { setHasAccount, updateMessage } = props;
+
+    const router = useRouter();
 
     const initialValues = {
         email: "",
@@ -34,7 +36,7 @@ const index = (props: Props) => {
             // @ts-ignore
             updateMessage(null, false, res.error); 
         } else {
-            Router.push(Routes.MY_KARMA);
+            router.push(Routes.MY_KARMA);
         }
     };
 
