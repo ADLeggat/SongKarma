@@ -1,5 +1,6 @@
 import { NextApiRequest } from "next";
 import { ObjectSchema } from "yup";
+import { Api, Crud } from "./constants";
 
 const HEADERS = {
     "Accept": "application/json",
@@ -17,6 +18,7 @@ export interface ApiRequest extends NextApiRequest {
 };
 
 export interface ApiResponse {
+    statusCode: number;
     success: boolean;
     message?: string;
     data?: any;
@@ -44,6 +46,7 @@ export const doCallout = async (method: string, endpoint: string, body?: unknown
 
 export const createJsonPayload = (success: boolean, message: string, data: any=null) => {
     const payload: ApiResponse = {
+        statusCode: getStatusCode(success, message),
         success,
         message
     };
@@ -53,4 +56,16 @@ export const createJsonPayload = (success: boolean, message: string, data: any=n
     }
 
     return payload;
-}
+};
+
+const getStatusCode = (success: boolean, resMessage: string) => {
+    let code = success? 200 : 400;
+
+    if(resMessage.includes(Crud.CREATED)) {
+        code = 201;
+    } else if(resMessage === Api.METHOD_NOT_ALLOWED) {
+        code = 405;
+    }
+
+    return code;
+};
