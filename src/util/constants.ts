@@ -32,9 +32,11 @@ export class UserEntity {
     static PASSWORD_CONFIRMATION = "password confirmation";
     static USERNAME = "username";
     static ARTIST_NAME = "artist name";
+   
     static PASSWORDS_MUST_MATCH = "Passwords must match";
     static NO_USER_FOUND = "No matching user was found";
     static PASSWORD_ENTERED_INCORRECTLY = "Your password was entered incorrectly";
+    static USER_EXISTS = "A user with this email already exists";
 };
 
 export class Auth {
