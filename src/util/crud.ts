@@ -21,15 +21,16 @@ export const createWithValidation = async (req: ApiRequest, res: NextApiResponse
 
 const getValidationErrorMessage = (tableName: string, errors: string[]) => {
     return `${tableName} validation errors: ${errors}`;
+};
+
+export const getCrudSuccessMessage = (tableName: string, operation: string) => {
+    return `${capitalise(tableName)} successfully ${operation}`;
+};
+
+const capitalise = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 const getCrudErrorMessage = (tableName: string, operation: string) => {
     return `There was a problem ${operation} the ${tableName}`;
 };
-
-export const buildResponse = (success: boolean, data: any) => {
-    return {
-        success,
-        data
-    };
-}
