@@ -1,24 +1,17 @@
 import { NextApiResponse } from "next";
 import { signup } from "~/controllers/user";
-import { ApiRequest, ApiResponse, POST } from "~/util";
+import { Api, ApiRequest, createJsonPayload, POST } from "~/util";
 
 
 async function handler(req: ApiRequest, res: NextApiResponse) {
     switch(req.method) {
         case POST:
             const signupRes = await signup(req, res);
-            return res.status(getStatusCode(signupRes)).send(signupRes);
+            return res.status(signupRes.statusCode).send(signupRes);
+        default:
+            const notAllowedRes = createJsonPayload(false, Api.METHOD_NOT_ALLOWED);
+            return res.status(notAllowedRes.statusCode).send(notAllowedRes);
     }
 };
-
-const getStatusCode = (signupRes: ApiResponse) => {
-    let code = 400;
-    
-    if(signupRes.success) {
-        code = signupRes.data? 201 : 200;
-    }
-
-    return code;
-}
 
 export default handler;
