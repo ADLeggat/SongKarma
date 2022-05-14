@@ -27,41 +27,32 @@ export const signup = async (req: ApiRequest, res: NextApiResponse) => {
 };
 
 const createUser = async (data: UserDetailsFormFields) => {
-    try {
-        const authToken = await generateToken(32);
-        const user = await prisma.user.create({
-            data: {
-                email: data.email,
-                password: hashSync(data.password, 12),
-                username: data.username,
-                artistName: data.artistName,
-                artistBio: data.artistBio,
-                receiveNews: data.receiveNews,
-                isEmailVerified: false,
-                authToken
-            }
-        });
-    
-        return getSessionUser(user);
-    } catch(err) {
-        console.log(err);
-        // return error respnose
-    }
+    const authToken = await generateToken(32);
+    const user = await prisma.user.create({
+        data: {
+            email: data.email,
+            password: hashSync(data.password, 12),
+            username: data.username,
+            artistName: data.artistName,
+            artistBio: data.artistBio,
+            receiveNews: data.receiveNews,
+            isEmailVerified: false,
+            authToken
+        }
+    });
+
+    return getSessionUser(user);
 };
 
 export const login = async (credentials: Record<string, string>) => {
     const { email, password } = credentials;
-
-    try{
-        const user = await findUserByEmail(email);
-        if(user) {
-            return await getSessionUserIfPasswordMatch(user, password);
-        } else {
-            return createJsonPayload(false, UserEntity.NO_USER_FOUND);
-        }
-    } catch (err) {
-        console.log(err);
+    const user = await findUserByEmail(email);
+    
+    if(user) {
+        return await getSessionUserIfPasswordMatch(user, password);
     }
+
+    return createJsonPayload(false, UserEntity.NO_USER_FOUND);
 };
 
 const getSessionUserIfPasswordMatch = async (user: User, password: string) => {
