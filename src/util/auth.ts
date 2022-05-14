@@ -9,7 +9,7 @@ export const getPropsOrRedirect = async (req: IncomingMessage, props: any) => {
 
     if(!session && Routes.PROTECTED.includes(props.path)) {
         return redirect("/");
-    } else if(session && props.path === "/auth") {
+    } else if(session && (props.path === "/auth" || props.path === "/")) {
         return redirect("/myKarma");
     }
 
