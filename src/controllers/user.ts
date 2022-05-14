@@ -2,15 +2,10 @@ import { NextApiResponse } from "next";
 import { compare, hashSync } from "bcryptjs";
 import prisma from "../../prisma/prisma";
 import { 
-    ApiRequest, buildResponse, createWithValidation, generateToken, passwordValidation, userDetailsValidation, 
-    UserEntity, UserDetailsFormFields, createJsonPayload, Api
+    Api, ApiRequest, createJsonPayload, createWithValidation, generateToken, passwordValidation, userDetailsValidation, 
+    UserEntity, UserDetailsFormFields, getCrudSuccessMessage, Crud
 } from "~/util";
 import { User } from "next-auth";
-
-interface LoginResponse {
-    user: SessionUser
-}
-
 interface SessionUser {
     id: string;
     username: string;
@@ -24,9 +19,9 @@ export const signup = async (req: ApiRequest, res: NextApiResponse) => {
 
         if(!user) {
             const sessionUser = await createUser(req.body);
-            return buildResponse(true, sessionUser);
+            return createJsonPayload(true, getCrudSuccessMessage(UserEntity.TABLE_NAME, Crud.CREATED), sessionUser);
         } else {
-            return buildResponse(false, null);
+            return createJsonPayload(false, UserEntity.USER_EXISTS);
         }
     });
 };
@@ -76,7 +71,7 @@ const getSessionUserIfPasswordMatch = async (user: User, password: string) => {
         const sessionUser = getSessionUser(user);
         return createJsonPayload(true, Api.GENERIC_SUCCESS_MESSAGE, sessionUser);
     } else {
-        return createJsonPayload(false, UserEntity.PASSWORD_ENTERED_INCORRECTLY, null);
+        return createJsonPayload(false, UserEntity.PASSWORD_ENTERED_INCORRECTLY);
     }
 };
 
