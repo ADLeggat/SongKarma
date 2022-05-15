@@ -49,7 +49,7 @@ const index = (props: Props) => {
                         onSubmit={onSubmit}
                         initialValues={initialValues}>
                         {({ handleSubmit, handleChange, values, touched, errors }) => (
-                            <Form noValidate onSubmit={handleSubmit} id="clientDetailsForm">
+                            <Form noValidate onSubmit={handleSubmit} id="signInForm">
                                 <Form.Group controlId="email">
                                     <Form.Control type="email" name="email" placeholder="email" required 
                                         isInvalid={!!(touched.email && errors.email)} 
