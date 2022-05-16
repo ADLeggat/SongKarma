@@ -4,6 +4,7 @@ import { Formik, Field } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { FieldErrorMessage } from "~/components/UI";
 import { Auth, passwordValidation, signup, tryCatchAsync, userDetailsValidation, UserDetailsFormFields } from "~/util";
+import styles from "./index.module.scss";
 
 interface Props {
     setHasAccount(hasAccount: boolean): void;
@@ -109,7 +110,7 @@ const index = (props: Props) => {
                                     </label>
                                 </Form.Group>
                                 <Form.Group>
-                                    <Button type="submit" className="mt-3 btn btn-block">
+                                    <Button type="submit" className={`mt-3 btn ${styles.Button}`}>
                                         Sign Up
                                     </Button>
                                 </Form.Group>

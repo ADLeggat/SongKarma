@@ -4,6 +4,7 @@ import { Auth, Routes, tryCatchAsync, UserLoginFormFields, userSignInValidation 
 import { FieldErrorMessage } from "~/components/UI";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
+import styles from "./index.module.scss";
 
 interface Props {
     setHasAccount(hasAccount: boolean): void;
@@ -63,8 +64,8 @@ const index = (props: Props) => {
                                         value={values.password} onChange={handleChange}/>
                                     <FieldErrorMessage message={errors.password} touched={touched.password}/>
                                 </Form.Group>
-                                <Form.Group>
-                                    <Button type="submit" className="mt-3 btn btn-block">
+                                <Form.Group >
+                                    <Button type="submit" className={`mt-3 btn ${styles.Button}`}>
                                         Sign In
                                     </Button>
                                 </Form.Group>
