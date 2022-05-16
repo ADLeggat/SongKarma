@@ -12,7 +12,7 @@ export const createWithValidation = async (req: ApiRequest, res: NextApiResponse
 
     return await tryCatchAsync(
         async () => await create(), 
-        err => getCrudErrorMessage(tableName, Crud.CREATING)
+        err => {console.log(err); return getCrudErrorMessage(tableName, Crud.CREATING)}
     );
 };
 
