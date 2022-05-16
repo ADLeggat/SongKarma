@@ -3,6 +3,7 @@ export * from "./auth";
 export * from "./constants";
 export * from "./crud";
 export * from "./formValidation";
+export * from "./testUtil";
 export * from "./user";
 
 export type AnyPromiseFunction = () => Promise<any>;
