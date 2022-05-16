@@ -20,11 +20,6 @@ if (process.env.NODE_ENV === "production") {
 } else {
     if (!global.prisma) {
         global.prisma = createPrismaClient();
-        // if(process.env.NODE_ENV === "test") {
-        //     global.prisma = prismaMock;
-        // } else {
-        //     global.prisma = new PrismaClient();
-        // }
     }
     prisma = global.prisma;
 }
