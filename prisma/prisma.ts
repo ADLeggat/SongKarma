@@ -1,16 +1,25 @@
 import { PrismaClient } from "@prisma/client";
+import { getPrismaMock } from "~/util";
 
 declare global {
     var prisma: PrismaClient
 }
 
-let prisma: PrismaClient;
+const createPrismaClient = () => {
+    const prisma = new PrismaClient();
+
+    if(process.env.NODE_ENV === "test") {
+        return getPrismaMock(prisma);
+    }
+
+    return prisma;
+};
 
 if (process.env.NODE_ENV === "production") {
-    prisma = new PrismaClient();
+    prisma = createPrismaClient();
 } else {
     if (!global.prisma) {
-        global.prisma = new PrismaClient();
+        global.prisma = createPrismaClient();
     }
     prisma = global.prisma;
 }
