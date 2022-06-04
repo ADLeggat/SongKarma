@@ -9,10 +9,11 @@ import styles from "./index.module.scss";
 interface Props {
     setHasAccount(hasAccount: boolean): void;
     updateMessage(setShowModal: Function|null, success: boolean, message: string): void;
+    userId: string;
 };
 
 const index = (props: Props) => {
-    const { setHasAccount, updateMessage } = props;
+    const { setHasAccount, updateMessage, userId } = props;
     const router = useRouter();
 
     const validation = userDetailsValidation

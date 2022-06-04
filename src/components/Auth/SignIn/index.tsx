@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { Auth, Routes, tryCatchAsync, UserLoginFormFields, userSignInValidation } from "~/util";
+import { Auth, doCallout, LogContexts, LOGGING_URI, LogTypes, POST, Routes, tryCatchAsync, UserLoginFormFields, userSignInValidation } from "~/util";
 import { FieldErrorMessage } from "~/components/UI";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -9,10 +9,11 @@ import styles from "./index.module.scss";
 interface Props {
     setHasAccount(hasAccount: boolean): void;
     updateMessage(setShowModal: Function|null, success: boolean, message: string): void;
+    userId: string;
 }
 
 const index = (props: Props) => {
-    const { setHasAccount, updateMessage } = props;
+    const { setHasAccount, updateMessage, userId } = props;
 
     const router = useRouter();
 
@@ -26,6 +27,7 @@ const index = (props: Props) => {
     };
 
     const doSignIn = async (fields: UserLoginFormFields) => {
+        throw new Error("TEST ERROR");
         const res = await signIn(Auth.CREDENTIALS, {
             redirect: false,
             email: fields.email,
