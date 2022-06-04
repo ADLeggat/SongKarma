@@ -1,0 +1,10 @@
+@import "~/styles/variables.scss";
+
+.ModalBody {
+    color: #FFF;
+    background-color: $mid-grey !important;
+}
+
+.Cross {
+    cursor: pointer
+}

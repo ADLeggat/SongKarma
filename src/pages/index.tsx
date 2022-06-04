@@ -1,13 +1,24 @@
-import { NextPage } from "next";
+import { GetServerSideProps } from "next";
+import { Session } from "next-auth";
 import Image from "next/image";
 import Container from "react-bootstrap/Container";
 import Layout from "~/components/Layout";
 import styles from "./index.module.scss";
+import { getPropsOrRedirect } from "~/util";
 
-const Home: NextPage = () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return getPropsOrRedirect(context.req, { path: "/" });
+};
+interface Props {
+    path: string;
+    session: Session;
+};
+
+const index = (props: Props) => {
+    const { path, session } = props;
     return (
         <div>
-            <Layout path="/" title="Home">
+            <Layout path={path} session={session} title="Home">
                 <Container className={styles.Container}>
                     <div className={styles.Strapline}>
                         The Peer <br/>
@@ -24,4 +35,4 @@ const Home: NextPage = () => {
     );
 };
 
-export default Home;
+export default index;

@@ -35,3 +35,17 @@
         height: 70px;
     }
 }
+
+.Dropdown {
+    display: flex;
+    margin: 0 10px;
+    padding-left: 0;
+
+    @media (min-width: $screen-size_lg) {
+        align-items: flex-end;
+    }
+
+    & > div > a {
+        color: white !important;
+    }
+}
