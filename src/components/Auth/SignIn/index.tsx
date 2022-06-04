@@ -1,6 +1,9 @@
 import { Formik } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { Auth, doCallout, LogContexts, LOGGING_URI, LogTypes, POST, Routes, tryCatchAsync, UserLoginFormFields, userSignInValidation } from "~/util";
+import { 
+    Auth, doCallout, LogContexts, LOGGING_URI, LogTypes, POST, Routes, tryCatchAsync, UserLoginFormFields, 
+    userSignInValidation 
+} from "~/util";
 import { FieldErrorMessage } from "~/components/UI";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -23,11 +26,18 @@ const index = (props: Props) => {
     };
 
     const onSubmit = (fields: UserLoginFormFields) => {
-        tryCatchAsync(() => doSignIn(fields), () => {});
+        tryCatchAsync(
+            () => doSignIn(fields), 
+            err => doCallout(POST, LOGGING_URI, {
+                userId,
+                type: LogTypes.ERROR,
+                context: LogContexts.CLIENT,
+                message: err.message
+            })
+        );
     };
 
     const doSignIn = async (fields: UserLoginFormFields) => {
-        throw new Error("TEST ERROR");
         const res = await signIn(Auth.CREDENTIALS, {
             redirect: false,
             email: fields.email,

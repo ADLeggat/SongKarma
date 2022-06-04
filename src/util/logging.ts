@@ -1,10 +1,10 @@
 export const LOGGING_URI = "/api/log";
 
 export interface LogData {
-    userId: string;
+    // userId: string;
     type: string;
     context: string;
-    error?: Error;
+    message?: string;
 };
 
 export const LogTypes = {
