@@ -1,3 +1,5 @@
+export const LOGGING_URI = "/api/log";
+
 export interface LogData {
     userId: string;
     type: string;
@@ -13,23 +15,4 @@ export const LogContexts = {
     API: "api",
     CLIENT: "client",
     CRUD: "crud"
-};
-
-export const log = (logData: LogData) => {
-
-    if(process.env.ENABLE_LOGGING !== "true") {
-        console.log("NOT LOGGING");
-        return;
-    }
-
-    switch(logData.type) {
-        case LogTypes.ERROR:
-            commitErrorLog(logData);
-            break;
-    }
-};
-
-const commitErrorLog = (logData: LogData) => {
-    // extract error log data
-    // save to db
 };
