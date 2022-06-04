@@ -18,10 +18,9 @@ export const LogContexts = {
 export const log = (logData: LogData) => {
 
     if(process.env.ENABLE_LOGGING !== "true") {
+        console.log("NOT LOGGING");
         return;
     }
-
-    console.log("LOGGING");
 
     switch(logData.type) {
         case LogTypes.ERROR:
