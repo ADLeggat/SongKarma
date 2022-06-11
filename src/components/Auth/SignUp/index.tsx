@@ -3,7 +3,7 @@ import { signIn } from 'next-auth/react';
 import { Formik, Field } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { FieldErrorMessage } from "~/components/UI";
-import { Auth, passwordValidation, signup, tryCatchAsync, userDetailsValidation, UserDetailsFormFields } from "~/util";
+import { Auth, passwordValidation, signup, tryCatch, userDetailsValidation, UserDetailsFormFields } from "~/util";
 import styles from "./index.module.scss";
 
 interface Props {
@@ -30,7 +30,7 @@ const index = (props: Props) => {
     };
 
     const onSubmit = async (fields: UserDetailsFormFields) => {
-        tryCatchAsync(
+        tryCatch(
             async () => await doSignUp(fields), 
             err => updateMessage(null, false, err.message)
         );

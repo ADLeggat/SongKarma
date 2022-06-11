@@ -1,5 +1,5 @@
 import { NextApiResponse } from "next";
-import { ApiRequest, tryCatchAsync } from "~/util";
+import { ApiRequest, tryCatch } from "~/util";
 import { Crud } from "./constants";
 import { validate } from "./formValidation";
 
@@ -10,7 +10,7 @@ export const createWithValidation = async (req: ApiRequest, res: NextApiResponse
         return getValidationErrorMessage(tableName, errors);
     }
 
-    return await tryCatchAsync(
+    return await tryCatch(
         async () => await create(), 
         err => getCrudErrorMessage(tableName, Crud.CREATING)
     );

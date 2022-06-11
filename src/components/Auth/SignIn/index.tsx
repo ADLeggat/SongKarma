@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { 
-    Auth, doCallout, LogContexts, LOGGING_URI, LogTypes, POST, Routes, tryCatchAsync, UserLoginFormFields, 
+    Api, Auth, doCallout, LogContexts, LOGGING_URI, LogTypes, POST, Routes, tryCatch, UserLoginFormFields, 
     userSignInValidation 
 } from "~/util";
 import { FieldErrorMessage } from "~/components/UI";
@@ -26,14 +26,17 @@ const index = (props: Props) => {
     };
 
     const onSubmit = (fields: UserLoginFormFields) => {
-        tryCatchAsync(
-            () => doSignIn(fields), 
-            err => doCallout(POST, LOGGING_URI, {
-                userId,
-                type: LogTypes.ERROR,
-                context: LogContexts.CLIENT,
-                message: err.message
-            })
+        tryCatch(
+            async () => await doSignIn(fields), 
+            async (err) => {
+                const res = await doCallout(POST, LOGGING_URI, {
+                    email: fields.email,
+                    type: LogTypes.ERROR,
+                    context: LogContexts.CLIENT,
+                    message: err.message
+                });
+                updateMessage(null, false, res.message);
+            }
         );
     };
 
@@ -42,7 +45,7 @@ const index = (props: Props) => {
             redirect: false,
             email: fields.email,
             password: fields.password
-        }) ; 
+        }); 
 
         // @ts-ignore
         if(res.error) {
