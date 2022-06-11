@@ -1,5 +1,5 @@
 import { NextApiResponse } from "next";
-import { ApiRequest, tryCatch } from "~/util";
+import { ApiRequest, createJsonPayload } from "~/util";
 import { Crud } from "./constants";
 import { validate } from "./formValidation";
 
@@ -10,10 +10,11 @@ export const createWithValidation = async (req: ApiRequest, res: NextApiResponse
         return getValidationErrorMessage(tableName, errors);
     }
 
-    return await tryCatch(
-        async () => await create(), 
-        err => getCrudErrorMessage(tableName, Crud.CREATING)
-    );
+    try {
+        return await create();
+    } catch(err) {
+        return createJsonPayload(false, getCrudErrorMessage(tableName, Crud.CREATING));
+    }
 };
 
 const getValidationErrorMessage = (tableName: string, errors: string[]) => {

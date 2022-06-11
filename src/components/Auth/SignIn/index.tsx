@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { 
-    Api, Auth, doCallout, LogContexts, LOGGING_URI, LogTypes, POST, Routes, tryCatch, UserLoginFormFields, 
+    Api, Auth, doCallout, LogContexts, LOGGING_URI, LogTypes, POST, Routes, UserLoginFormFields, 
     userSignInValidation 
 } from "~/util";
 import { FieldErrorMessage } from "~/components/UI";
@@ -25,19 +25,19 @@ const index = (props: Props) => {
         password: ""
     };
 
-    const onSubmit = (fields: UserLoginFormFields) => {
-        tryCatch(
-            async () => await doSignIn(fields), 
-            async (err) => {
-                const res = await doCallout(POST, LOGGING_URI, {
-                    email: fields.email,
-                    type: LogTypes.ERROR,
-                    context: LogContexts.CLIENT,
-                    message: err.message
-                });
-                updateMessage(null, false, res.message);
-            }
-        );
+    const onSubmit = async (fields: UserLoginFormFields) => {
+        try{
+            await doSignIn(fields);
+        } catch(err) {
+            const castError = err as Error;
+            await doCallout(POST, LOGGING_URI, {
+                email: fields.email,
+                type: LogTypes.ERROR,
+                context: LogContexts.CLIENT,
+                message: castError.message
+            });
+            updateMessage(null, false, castError.message);
+        }
     };
 
     const doSignIn = async (fields: UserLoginFormFields) => {
