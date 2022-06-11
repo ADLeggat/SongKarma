@@ -2,7 +2,6 @@ import prisma from "../../prisma/prisma";
 import { LogData, LogTypes } from "~/util";
 
 export const log = async (logData: LogData) => {
-    console.log("log LOG DATA: ", logData)
 
     if(process.env.ENABLE_LOGGING !== "true") {
         return;
@@ -16,19 +15,10 @@ export const log = async (logData: LogData) => {
 };
 
 const commitErrorLog = async (logData: LogData) => {
-
     await prisma.log.create({
         data: {
-            ...buildBaseLog(logData),
-            line: 1,
+            ...logData,
             message: logData?.message as string
         } 
     });
 };
-
-const buildBaseLog = (logData: LogData) => {
-    return {
-        type: logData.type,
-        context: logData.context
-    };
-}
