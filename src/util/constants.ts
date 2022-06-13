@@ -46,4 +46,5 @@ export class Auth {
 export class Api {
     static GENERIC_SUCCESS_MESSAGE = "Success";
     static METHOD_NOT_ALLOWED = "Method not allowed";
+    static SOMETHING_WENT_WRONG = "Something went wrong";
 }

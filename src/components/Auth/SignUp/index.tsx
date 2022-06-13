@@ -3,16 +3,17 @@ import { signIn } from 'next-auth/react';
 import { Formik, Field } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { FieldErrorMessage } from "~/components/UI";
-import { Auth, passwordValidation, signup, tryCatchAsync, userDetailsValidation, UserDetailsFormFields } from "~/util";
+import { Auth, passwordValidation, signup, userDetailsValidation, UserDetailsFormFields } from "~/util";
 import styles from "./index.module.scss";
 
 interface Props {
     setHasAccount(hasAccount: boolean): void;
     updateMessage(setShowModal: Function|null, success: boolean, message: string): void;
+    userId: string;
 };
 
 const index = (props: Props) => {
-    const { setHasAccount, updateMessage } = props;
+    const { setHasAccount, updateMessage, userId } = props;
     const router = useRouter();
 
     const validation = userDetailsValidation
@@ -29,17 +30,17 @@ const index = (props: Props) => {
     };
 
     const onSubmit = async (fields: UserDetailsFormFields) => {
-        tryCatchAsync(
-            async () => await doSignUp(fields), 
-            err => updateMessage(null, false, err.message)
-        );
+        try {
+            await doSignUp(fields);
+        } catch(err) {
+            updateMessage(null, false, (err as Error).message)
+        }
     };
 
     const doSignUp = async (fields: UserDetailsFormFields) => {
         const res = await signup(fields);
 
         if(!res.success) {
-            // @ts-ignore
             updateMessage(null, false, res.message); 
         } else {
             await signIn(Auth.CREDENTIALS, {

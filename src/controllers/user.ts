@@ -2,8 +2,8 @@ import { NextApiResponse } from "next";
 import { compare, hashSync } from "bcryptjs";
 import prisma from "../../prisma/prisma";
 import { 
-    Api, ApiRequest, createJsonPayload, createWithValidation, generateToken, passwordValidation, userDetailsValidation, 
-    UserEntity, UserDetailsFormFields, getCrudSuccessMessage, Crud
+    Api, ApiRequest, createJsonPayload, createWithValidation, Crud, generateToken, getCrudSuccessMessage, 
+    passwordValidation, userDetailsValidation, UserEntity, UserDetailsFormFields
 } from "~/util";
 import { User } from "next-auth";
 interface SessionUser {

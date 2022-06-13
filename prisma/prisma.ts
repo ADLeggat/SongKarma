@@ -7,9 +7,9 @@ declare global {
 
 const prisma = global.prisma || new PrismaClient({ log: ["info"] });
 
-if(process.env.NODE_ENV === "production") {
+if(process.env.NODE_ENV !== "test") {
     global.prisma = prisma;
-} else if(process.env.NODE_ENV === "test") {
+} else {
     global.prisma = getPrismaMock(prisma);
 }
 
