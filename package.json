@@ -1,7 +1,7 @@
 {
   "name": "song-karma",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "scripts": {
     "dev": "npm run db:update && next dev",
     "build": "next build",
