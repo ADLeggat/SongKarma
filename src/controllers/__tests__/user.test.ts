@@ -6,10 +6,16 @@ import httpMocks from "node-mocks-http";
 import { login, signup } from "~/controllers";
 import { ApiRequest, getPrismaMock, userDetailsValidation } from "~/util";
 import prisma from "../../../prisma/prisma";
+import { getSession } from "next-auth/react";
 
 jest.mock("../../../prisma/prisma", () => ({
     __esModule: true,
     default: mockDeep<PrismaClient>()
+}));
+
+jest.mock("next-auth/react", () => ({
+    __esModule: true,
+    getSession: jest.fn()
 }));
 
 describe("signup", () => {
