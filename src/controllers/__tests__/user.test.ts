@@ -79,6 +79,7 @@ const createUserReq = () => {
     mockReq.body = {
         email: "test@test.com",
         password: "password",
+        confirmPassword: "password",
         username: "username",
         artistName: "artistName",
         artistBio: "artistBio",
