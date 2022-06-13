@@ -1,5 +1,5 @@
 import prisma from "../../prisma/prisma";
-import { LogData, LogTypes } from "~/util";
+import { Api, createJsonPayload, LogData, LogTypes } from "~/util";
 
 export const log = async (logData: LogData) => {
 
@@ -12,6 +12,8 @@ export const log = async (logData: LogData) => {
             await commitErrorLog(logData);
             break;
     }
+
+    return createJsonPayload(false, Api.SOMETHING_WENT_WRONG);
 };
 
 const commitErrorLog = async (logData: LogData) => {
