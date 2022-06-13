@@ -23,8 +23,8 @@ const index = (props: Props) => {
     return (
         <Layout path={path} session={session} title="Auth">
             {hasAccount ? 
-                <SignIn setHasAccount={setHasAccount} updateMessage={updateMessage}/> : 
-                <SignUp setHasAccount={setHasAccount} updateMessage={updateMessage}/>
+                <SignIn setHasAccount={setHasAccount} updateMessage={updateMessage} userId={session?.user.id}/> : 
+                <SignUp setHasAccount={setHasAccount} updateMessage={updateMessage} userId={session?.user.id}/>
             }
         </Layout>
     );

@@ -14,7 +14,8 @@ export const PATCH = "PATCH";
 export const DELETE = "DELETE";
 
 export interface ApiRequest extends NextApiRequest {
-    validations?: ObjectSchema<any, any, any, any>
+    validations?: ObjectSchema<any, any, any, any>;
+    message?: string;
 };
 
 export interface ApiResponse {

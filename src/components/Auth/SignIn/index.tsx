@@ -1,6 +1,9 @@
 import { Formik } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { Auth, Routes, tryCatchAsync, UserLoginFormFields, userSignInValidation } from "~/util";
+import { 
+    Api, Auth, doCallout, LogContexts, LOGGING_URI, LogTypes, POST, Routes, UserLoginFormFields, 
+    userSignInValidation 
+} from "~/util";
 import { FieldErrorMessage } from "~/components/UI";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -9,10 +12,11 @@ import styles from "./index.module.scss";
 interface Props {
     setHasAccount(hasAccount: boolean): void;
     updateMessage(setShowModal: Function|null, success: boolean, message: string): void;
+    userId: string;
 }
 
 const index = (props: Props) => {
-    const { setHasAccount, updateMessage } = props;
+    const { setHasAccount, updateMessage, userId } = props;
 
     const router = useRouter();
 
@@ -21,8 +25,19 @@ const index = (props: Props) => {
         password: ""
     };
 
-    const onSubmit = (fields: UserLoginFormFields) => {
-        tryCatchAsync(() => doSignIn(fields), () => {});
+    const onSubmit = async (fields: UserLoginFormFields) => {
+        try{
+            await doSignIn(fields);
+        } catch(err) {
+            const castError = err as Error;
+            await doCallout(POST, LOGGING_URI, {
+                email: fields.email,
+                type: LogTypes.ERROR,
+                context: LogContexts.CLIENT,
+                message: castError.message
+            });
+            updateMessage(null, false, castError.message);
+        }
     };
 
     const doSignIn = async (fields: UserLoginFormFields) => {
@@ -30,7 +45,7 @@ const index = (props: Props) => {
             redirect: false,
             email: fields.email,
             password: fields.password
-        }) ; 
+        }); 
 
         // @ts-ignore
         if(res.error) {
