@@ -23,6 +23,8 @@ export class Crud {
     static UPDATED = "updated";
     static DELETING = "deleting";
     static DELETED = "deleted";
+    static RETRIEVING = "retrieving";
+    static RETRIEVED = "retrieved";
 } 
 
 export class UserEntity {
