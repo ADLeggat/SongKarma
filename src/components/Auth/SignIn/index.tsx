@@ -29,14 +29,13 @@ const index = (props: Props) => {
         try{
             await doSignIn(fields);
         } catch(err) {
-            const castError = err as Error;
-            await doCallout(POST, LOGGING_URI, {
+            const res = await doCallout(POST, LOGGING_URI, {
                 email: fields.email,
                 type: LogTypes.ERROR,
                 context: LogContexts.CLIENT,
-                message: castError.message
+                message: (err as Error).message
             });
-            updateMessage(null, false, castError.message);
+            updateMessage(null, false, res.message);
         }
     };
 

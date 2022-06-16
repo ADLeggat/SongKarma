@@ -6,7 +6,7 @@ import { Api, ApiRequest, createJsonPayload, POST } from "~/util";
 async function handler(req: ApiRequest, res: NextApiResponse) {
     switch(req.method) {
         case POST:
-            const signupRes = await signup(req, res);
+            const signupRes = await signup(req);
             return res.status(signupRes.statusCode).send(signupRes);
         default:
             const notAllowedRes = createJsonPayload(false, Api.METHOD_NOT_ALLOWED);
