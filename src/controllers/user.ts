@@ -11,15 +11,16 @@ interface SessionUser {
     username: string;
 };
 
-export const signup = async (req: ApiRequest, res: NextApiResponse) => {
+export const signup = async (req: ApiRequest) => {
     req.validations = userDetailsValidation.concat(passwordValidation);
 
-    return await createWithValidation(req, res, UserEntity.TABLE_NAME, async () => {
+    return await createWithValidation(req, UserEntity.TABLE_NAME, async () => {
         let user = await findUserByEmail(req.body.email);
 
         if(!user) {
             const sessionUser = await createUser(req.body);
             return createJsonPayload(true, getCrudSuccessMessage(UserEntity.TABLE_NAME, Crud.CREATED), sessionUser);
+            return {};
         } else {
             return createJsonPayload(false, UserEntity.USER_EXISTS);
         }

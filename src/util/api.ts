@@ -1,3 +1,4 @@
+import axios from "axios";
 import { NextApiRequest } from "next";
 import { ObjectSchema } from "yup";
 import { Api, Crud } from "./constants";
@@ -25,23 +26,17 @@ export interface ApiResponse {
     data?: any;
 };
 
-export const doCallout = async (method: string, endpoint: string, body?: unknown) => {
-    const params: RequestInit = {
-        method,
-        headers: HEADERS
-    };
-
-    if(body) {
-        params.body = JSON.stringify(body);
-    }
-
-    const res = await fetch(endpoint, params);
-
-    if(!res.ok){
-        throw new Error(res.statusText);
-    } else {
-        const data = await res.json();
-        return data;
+export const doCallout = async (method: string, url: string, data?: unknown) => {
+    try {
+        const res = await axios({method, headers: HEADERS, url, data});
+    
+        if(res.statusText !== "OK"){
+            throw new Error(res.statusText);
+        } else {
+            return res.data;
+        }
+    } catch(err) {
+        console.log(err);
     }
 };
 

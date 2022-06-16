@@ -1,12 +1,12 @@
 import { NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 import { log } from "~/controllers";
-import { ApiRequest, createJsonPayload, LogContexts, LogTypes } from "~/util";
+import { ApiRequest, createJsonPayload, doCallout, LogContexts, LOGGING_URI, LogTypes, POST } from "~/util";
 import { Crud } from "./constants";
 import { validate } from "./formValidation";
 
 
-export const createWithValidation = async (req: ApiRequest, res: NextApiResponse, tableName: string, create: Function) => {
+export const createWithValidation = async (req: ApiRequest, tableName: string, create: Function) => {
     const session = await getSession();
     const errors = await validate(req);
     if(errors.length !== 0){
@@ -16,8 +16,9 @@ export const createWithValidation = async (req: ApiRequest, res: NextApiResponse
     try {
         return await create();
     } catch(err) {
-        await log({
-            userId: session!.user.id,
+        await doCallout(POST, `${process.env.NEXTAUTH_URL}/${LOGGING_URI}`, {
+            userId: session?.user.id,
+            email: req.body.email,
             type: LogTypes.ERROR,
             context: LogContexts.CRUD,
             message: (err as Error).message
