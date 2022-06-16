@@ -30,7 +30,7 @@ export const doCallout = async (method: string, url: string, data?: unknown) => 
     try {
         const res = await axios({method, headers: HEADERS, url, data});
     
-        if(res.statusText !== "OK"){
+        if(!res.data.success){
             throw new Error(res.statusText);
         } else {
             return res.data;

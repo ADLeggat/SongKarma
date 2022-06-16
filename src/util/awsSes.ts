@@ -3,7 +3,7 @@ import  { SendEmailCommand, SendEmailCommandInput, SESClient }  from  "@aws-sdk/
 const REGION = "eu-west-1";
 const sesClient = new SESClient({ region: REGION });
 
-export const getSignupEmailParams = (toAddress: string) => {
+export const getSignupEmailParams = (toAddress: string, authToken: string) => {
     return {
         Destination: {
             ToAddresses: [toAddress],
@@ -12,7 +12,7 @@ export const getSignupEmailParams = (toAddress: string) => {
             Body: {
                 Html: {
                     Charset: "UTF-8",
-                    Data: getSignupEmailBody(),
+                    Data: getSignupEmailBody(authToken),
                 },
             },
             Subject: {
@@ -20,14 +20,14 @@ export const getSignupEmailParams = (toAddress: string) => {
                 Data: "SongKarma Sign Up",
             },
         },
-        Source: "noReply@song-karma.com",
+        Source: "tornicb@hotmail.com" // noReply@song-karma.com SES currently in sb mode, so only verified emails allowed
     };
 };
 
-const getSignupEmailBody = () => {
+const getSignupEmailBody = (authToken: string) => {
     return `
         <p> Thank you for signing up to SongKarma. Please verify your email by clicking the link below. </p>
-        <a href="${process.env.NEXTAUTH_URL}/api/..." target="_blank">Verfiy email</a>
+        <a href="${process.env.NEXTAUTH_URL}/auth/verify/${authToken}" target="_blank">Verfiy email</a>
     `
 }
 

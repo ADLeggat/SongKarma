@@ -43,11 +43,11 @@ const index = (props: Props) => {
         if(!res.success) {
             updateMessage(null, false, res.message); 
         } else {
-            await signIn(Auth.CREDENTIALS, {
-                email: fields.email,
-                password: fields.password
-            });
-            router.push("/myKarma");
+            // await signIn(Auth.CREDENTIALS, {
+            //     email: fields.email,
+            //     password: fields.password
+            // });
+            router.push("/auth/verify");
         }
     };
 

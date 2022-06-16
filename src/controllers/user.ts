@@ -1,9 +1,8 @@
-import { NextApiResponse } from "next";
 import { compare, hashSync } from "bcryptjs";
 import prisma from "../../prisma/prisma";
 import { 
     Api, ApiRequest, createJsonPayload, createWithValidation, Crud, generateToken, getCrudSuccessMessage, 
-    passwordValidation, userDetailsValidation, UserEntity, UserDetailsFormFields
+    passwordValidation, userDetailsValidation, UserEntity, UserDetailsFormFields, sendEmail, getSignupEmailParams
 } from "~/util";
 import { User } from "next-auth";
 interface SessionUser {
@@ -18,17 +17,17 @@ export const signup = async (req: ApiRequest) => {
         let user = await findUserByEmail(req.body.email);
 
         if(!user) {
-            const sessionUser = await createUser(req.body);
-            return createJsonPayload(true, getCrudSuccessMessage(UserEntity.TABLE_NAME, Crud.CREATED), sessionUser);
-            return {};
+            const authToken = await generateToken(32);
+            await createUser(req.body, authToken);
+            await sendEmail(getSignupEmailParams(req.body.email, authToken));
+            return createJsonPayload(true, getCrudSuccessMessage(UserEntity.TABLE_NAME, Crud.CREATED));
         } else {
             return createJsonPayload(false, UserEntity.USER_EXISTS);
         }
     });
 };
 
-const createUser = async (data: UserDetailsFormFields) => {
-    const authToken = await generateToken(32);
+const createUser = async (data: UserDetailsFormFields, authToken: string) => {
     const user = await prisma.user.create({
         data: {
             email: data.email,
