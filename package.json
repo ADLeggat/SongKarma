@@ -12,6 +12,7 @@
     "db:explore": "dotenv -e .env.local  npx prisma studio"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.110.0",
     "@prisma/client": "^3.11.1",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.1.3",
