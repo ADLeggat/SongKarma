@@ -2,13 +2,35 @@ import { compare, hashSync } from "bcryptjs";
 import prisma from "../../prisma/prisma";
 import { 
     Api, ApiRequest, createJsonPayload, createWithValidation, Crud, generateToken, getCrudSuccessMessage, 
-    passwordValidation, userDetailsValidation, UserEntity, UserDetailsFormFields, sendEmail, getSignupEmailParams
+    passwordValidation, userDetailsValidation, UserEntity, UserDetailsFormFields, sendEmail, getSignupEmailParams, getRecords
 } from "~/util";
 import { User } from "next-auth";
-interface SessionUser {
-    id: string;
-    username: string;
+import { getSession } from "next-auth/react";
+interface GetUserWhereClause {
+    id?: string;
+    authToken?: string;
 };
+
+export const getUser = async (req: ApiRequest) => {
+    return getRecords(UserEntity.TABLE_NAME, async() => {
+        const where = await buildGetUserWhereClause(req);
+        return await prisma.user.findUnique({ where });
+    });
+};
+
+const buildGetUserWhereClause = async (req: ApiRequest) => {
+    const isSignup = req.query.su === "true";
+    const id = isSignup? req.query.authToken as string : (await getSession())!.user.id;
+
+    const where: GetUserWhereClause = {};
+    if(isSignup) {
+        where.authToken = id;
+    } else {
+        where.id = id;
+    }
+
+    return where;
+}
 
 export const signup = async (req: ApiRequest) => {
     req.validations = userDetailsValidation.concat(passwordValidation);
