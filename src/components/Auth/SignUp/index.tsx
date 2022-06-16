@@ -1,9 +1,8 @@
 import { useRouter } from "next/router";
-import { signIn } from 'next-auth/react';
 import { Formik, Field } from 'formik';
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { FieldErrorMessage } from "~/components/UI";
-import { Auth, passwordValidation, signup, userDetailsValidation, UserDetailsFormFields } from "~/util";
+import { passwordValidation, signup, userDetailsValidation, UserDetailsFormFields } from "~/util";
 import styles from "./index.module.scss";
 
 interface Props {
@@ -43,10 +42,6 @@ const index = (props: Props) => {
         if(!res.success) {
             updateMessage(null, false, res.message); 
         } else {
-            // await signIn(Auth.CREDENTIALS, {
-            //     email: fields.email,
-            //     password: fields.password
-            // });
             router.push("/auth/verify");
         }
     };
