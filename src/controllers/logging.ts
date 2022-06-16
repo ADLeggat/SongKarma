@@ -2,9 +2,10 @@ import prisma from "../../prisma/prisma";
 import { Api, createJsonPayload, LogData, LogTypes } from "~/util";
 
 export const log = async (logData: LogData) => {
+    const loggingRes = createJsonPayload(false, Api.SOMETHING_WENT_WRONG);
 
     if(process.env.ENABLE_LOGGING !== "true") {
-        return;
+        return loggingRes;
     }
 
     switch(logData.type) {
@@ -13,7 +14,7 @@ export const log = async (logData: LogData) => {
             break;
     }
 
-    return createJsonPayload(false, Api.SOMETHING_WENT_WRONG);
+    return loggingRes;
 };
 
 const commitErrorLog = async (logData: LogData) => {
