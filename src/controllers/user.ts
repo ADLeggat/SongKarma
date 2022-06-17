@@ -3,7 +3,7 @@ import prisma from "../../prisma/prisma";
 import { 
     Api, ApiRequest, createJsonPayload, createWithValidation, Crud, generateToken, getCrudSuccessMessage, getRecords,
     getSignupEmailParams, passwordValidation, sendEmail, userDetailsValidation, UserEntity, UserDetailsFormFields, 
-    updateWithValidation, upsertRecord
+    updateWithValidation, upsertRecord, Auth
 } from "~/util";
 import { User } from "next-auth";
 import { getSession } from "next-auth/react";
@@ -109,10 +109,12 @@ const doUpdate = async (req: ApiRequest) => {
 
 export const login = async (credentials: Record<string, string>) => {
     const { email, password } = credentials;
-    const user = await findUserByEmail(email);
+    const user = await findUserByEmail(email.toLowerCase());
     
     if(user) {
-        // if user !emailVerified return error message
+        if(!user.isEmailVerified) {
+            return createJsonPayload(false, Auth.PLEASE_VERIFY_EMAIL);
+        }
         return await getSessionUserIfPasswordMatch(user, password);
     }
 

@@ -44,6 +44,7 @@ export class UserEntity {
 export class Auth {
     static CREDENTIALS = "credentials";
     static TOKEN_EXPIRED = "The authentication token has expired";
+    static PLEASE_VERIFY_EMAIL = "Please verify your email address";
 };
 
 export class Api {
