@@ -14,7 +14,12 @@ interface GetUserWhereClause {
 export const getUser = async (req: ApiRequest) => {
     return getRecords(UserEntity.TABLE_NAME, async() => {
         const where = await buildGetUserWhereClause(req);
-        return await prisma.user.findUnique({ where });;
+        const user = await prisma.user.findUnique({ where });
+        
+        if(user) {
+            user.password = "";
+        }
+        return user;
     });
 };
 
