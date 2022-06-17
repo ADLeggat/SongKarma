@@ -1,4 +1,4 @@
-import { doCallout, GET, POST } from "~/util/api";
+import { doCallout, GET, PATCH, POST } from "~/util/api";
 
 export interface UserDetailsFormFields extends UserLoginFormFields {
     confirmPassword: string;
@@ -21,3 +21,7 @@ export const signup = async (fields: unknown) => {
 export const getUser = async (id: string, isSignup: boolean) => {
     return await doCallout(GET, `/api/users/${id}?su=${isSignup}`);
 };
+
+export const updateUser = async (id: string, fields: unknown) => {
+    return await doCallout(PATCH, `/api/users/${id}`, fields);
+}
