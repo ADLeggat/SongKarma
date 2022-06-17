@@ -1,8 +1,9 @@
 import { compare, hashSync } from "bcryptjs";
 import prisma from "../../prisma/prisma";
 import { 
-    Api, ApiRequest, createJsonPayload, createWithValidation, Crud, generateToken, getCrudSuccessMessage, 
-    passwordValidation, userDetailsValidation, UserEntity, UserDetailsFormFields, sendEmail, getSignupEmailParams, getRecords, updateWithValidation
+    Api, ApiRequest, createJsonPayload, createWithValidation, Crud, generateToken, getCrudSuccessMessage, getRecords,
+    getSignupEmailParams, passwordValidation, sendEmail, userDetailsValidation, UserEntity, UserDetailsFormFields, 
+    updateWithValidation, upsertRecord
 } from "~/util";
 import { User } from "next-auth";
 import { getSession } from "next-auth/react";
@@ -71,7 +72,7 @@ const createUser = async (data: UserDetailsFormFields, authToken: string) => {
     return getSessionUser(user);
 };
 
-export const updateUser = async (req: ApiRequest) => {
+export const updateUserWithValidation = async (req: ApiRequest) => {
     req.validations = userDetailsValidation;
 
     return await updateWithValidation(req, UserEntity.TABLE_NAME, async () => {
@@ -81,6 +82,16 @@ export const updateUser = async (req: ApiRequest) => {
         }
        return createJsonPayload(true, getCrudSuccessMessage(UserEntity.TABLE_NAME, Crud.UPDATED));
     });
+};
+
+export const updateUser = async (req: ApiRequest) => {
+    return await upsertRecord(req, UserEntity.TABLE_NAME, async () => {
+       const updatedUser = await doUpdate(req);
+       if(updatedUser) {
+            updatedUser.password = "";
+        }
+       return createJsonPayload(true, getCrudSuccessMessage(UserEntity.TABLE_NAME, Crud.UPDATED));
+    }, Crud.CREATING);
 };
 
 const doUpdate = async (req: ApiRequest) => {

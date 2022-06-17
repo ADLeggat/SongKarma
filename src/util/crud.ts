@@ -1,4 +1,3 @@
-import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 import { ApiRequest, createJsonPayload, doCallout, LogContexts, LOGGING_URI, LogTypes, POST } from "~/util";
 import { Crud } from "./constants";
@@ -44,7 +43,6 @@ export const upsertRecord = async (req: ApiRequest, tableName: string, upsert: F
     try {
         return await upsert();
     } catch(err) {
-        console.log(err);
         await doCallout(POST, `${process.env.NEXTAUTH_URL}/${LOGGING_URI}`, {
             userId: session?.user.id,
             email: req.body.email,

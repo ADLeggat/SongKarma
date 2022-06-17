@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Auth, getUser } from "~/util";
+import { Auth, getUser, updateUserOnEmailVerification } from "~/util";
 import Layout from "~/components/Layout";
 import { withMessage } from "~/hocs";
 import { Spinner } from "~/components/UI";
@@ -21,7 +21,7 @@ const index = (props: Props) => {
         if(router.isReady) {
             const res = await getUser(router.query.authToken as string, true);
             if(res.data) {
-                // update user emailVerified and clear authToken
+                await updateUserOnEmailVerification(res.data.id, { isEmailVerified: true, authToken: null });
                 setIsVerified(true);
             } else {
                 updateMessage(null, false, Auth.TOKEN_EXPIRED);

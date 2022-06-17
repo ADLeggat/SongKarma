@@ -3,6 +3,7 @@ import { getSession } from "next-auth/react";
 import { promisify } from "util";
 import { randomBytes } from "crypto";
 import { Routes } from "./constants";
+import { doCallout, PATCH } from "./api";
 
 export const getPropsOrRedirect = async (req: IncomingMessage, props: any) => {
     const session = await getSession({ req });
@@ -36,3 +37,7 @@ export const generateToken = async (size: number) => {
     const token = buffer.toString('hex');
     return token;
 };
+
+export const updateUserOnEmailVerification = async (id: string, fields: unknown) => {
+    return await doCallout(PATCH, `/api/auth/verify/${id}`, fields);
+}
