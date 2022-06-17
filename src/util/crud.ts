@@ -22,15 +22,29 @@ export const getRecords = async (tableName: string, func: Function) => {
 };
 
 export const createWithValidation = async (req: ApiRequest, tableName: string, create: Function) => {
-    const session = await getSession();
+    return upsertWithValdiation(req, tableName, create, Crud.CREATING);
+};
+
+export const updateWithValidation = async (req: ApiRequest, tableName: string, update: Function) => {
+    return upsertWithValdiation(req, tableName, update, Crud.UPDATING);
+};
+
+const upsertWithValdiation = async (req: ApiRequest, tableName: string, upsert: Function, operation: string) => {
     const errors = await validate(req);
     if(errors.length !== 0){
         return getValidationErrorMessage(tableName, errors);
     }
 
+    return upsertRecord(req, tableName, upsert, operation);
+};
+
+export const upsertRecord = async (req: ApiRequest, tableName: string, upsert: Function, operation: string) => {
+    const session = await getSession();
+
     try {
-        return await create();
+        return await upsert();
     } catch(err) {
+        console.log(err);
         await doCallout(POST, `${process.env.NEXTAUTH_URL}/${LOGGING_URI}`, {
             userId: session?.user.id,
             email: req.body.email,
@@ -38,9 +52,9 @@ export const createWithValidation = async (req: ApiRequest, tableName: string, c
             context: LogContexts.CRUD,
             message: (err as Error).message
         });
-        return createJsonPayload(false, getCrudErrorMessage(tableName, Crud.CREATING));
+        return createJsonPayload(false, getCrudErrorMessage(tableName, operation));
     }
-};
+}
 
 const getValidationErrorMessage = (tableName: string, errors: string[]) => {
     return `${tableName} validation errors: ${errors}`;

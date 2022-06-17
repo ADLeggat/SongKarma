@@ -2,7 +2,7 @@ import { compare, hashSync } from "bcryptjs";
 import prisma from "../../prisma/prisma";
 import { 
     Api, ApiRequest, createJsonPayload, createWithValidation, Crud, generateToken, getCrudSuccessMessage, 
-    passwordValidation, userDetailsValidation, UserEntity, UserDetailsFormFields, sendEmail, getSignupEmailParams, getRecords
+    passwordValidation, userDetailsValidation, UserEntity, UserDetailsFormFields, sendEmail, getSignupEmailParams, getRecords, updateWithValidation
 } from "~/util";
 import { User } from "next-auth";
 import { getSession } from "next-auth/react";
@@ -15,7 +15,7 @@ export const getUser = async (req: ApiRequest) => {
     return getRecords(UserEntity.TABLE_NAME, async() => {
         const where = await buildGetUserWhereClause(req);
         const user = await prisma.user.findUnique({ where });
-        
+
         if(user) {
             user.password = "";
         }
@@ -71,11 +71,37 @@ const createUser = async (data: UserDetailsFormFields, authToken: string) => {
     return getSessionUser(user);
 };
 
+export const updateUser = async (req: ApiRequest) => {
+    req.validations = userDetailsValidation;
+
+    return await updateWithValidation(req, UserEntity.TABLE_NAME, async () => {
+       const updatedUser = await doUpdate(req);
+       if(updatedUser) {
+            updatedUser.password = "";
+        }
+       return createJsonPayload(true, getCrudSuccessMessage(UserEntity.TABLE_NAME, Crud.UPDATED));
+    });
+};
+
+const doUpdate = async (req: ApiRequest) => {
+    const userId = req.query.id as string;
+
+    return await prisma.user.update({
+        where: {
+            id: userId
+        },
+        data: {
+            ...req.body
+        }
+    });
+}
+
 export const login = async (credentials: Record<string, string>) => {
     const { email, password } = credentials;
     const user = await findUserByEmail(email);
     
     if(user) {
+        // if user !emailVerified return error message
         return await getSessionUserIfPasswordMatch(user, password);
     }
 
