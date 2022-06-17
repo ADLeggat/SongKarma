@@ -6,9 +6,10 @@ import { validate } from "./formValidation";
 
 export const getRecords = async (tableName: string, func: Function) => {
     let session = await getSession();
+
     try{
         const records = await func();
-        return createJsonPayload(true, getCrudErrorMessage(tableName, Crud.RETRIEVED), records);
+        return createJsonPayload(true, getCrudSuccessMessage(tableName, Crud.RETRIEVED), records);
     } catch(err){
         await doCallout(POST, `${process.env.NEXTAUTH_URL}/${LOGGING_URI}`, {
             userId: session?.user.id,
