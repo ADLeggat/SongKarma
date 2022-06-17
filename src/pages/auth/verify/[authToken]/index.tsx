@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Auth, getUser } from "~/util";
 import Layout from "~/components/Layout";
 import { withMessage } from "~/hocs";
+import { Spinner } from "~/components/UI";
 
 interface Props {
     updateMessage(setShowModal: Function|null, success: boolean, message: string): void; 
@@ -20,6 +21,7 @@ const index = (props: Props) => {
         if(router.isReady) {
             const res = await getUser(router.query.authToken as string, true);
             if(res.data) {
+                // update user emailVerified and clear authToken
                 setIsVerified(true);
             } else {
                 updateMessage(null, false, Auth.TOKEN_EXPIRED);
@@ -29,12 +31,12 @@ const index = (props: Props) => {
 
     return (
         <Layout path="/auth/verify/[authToken]" title="Verify">
-            <p className="centre mt-5">
-                {isVerified?
+            <div className="centre mt-5">
+                { isVerified? 
                     "Thank you for signing up. You can now log into SongKarma." :
-                    "SpinnerComponent"
+                    <Spinner withBackdrop/>
                 }
-            </p>
+            </div>
         </Layout>
     );
 }
