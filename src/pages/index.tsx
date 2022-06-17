@@ -11,14 +11,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 interface Props {
     path: string;
-    session: Session;
+    session?: Session;
 };
 
 const index = (props: Props) => {
     const { path, session } = props;
     return (
         <div>
-            <Layout path={path} session={session} title="Home">
+            <Layout path={path} session={session} title={path === "/"? "Home" : path}>
                 <Container className={styles.Container}>
                     <div className={styles.Strapline}>
                         The Peer <br/>
