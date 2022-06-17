@@ -43,6 +43,7 @@ export class UserEntity {
 
 export class Auth {
     static CREDENTIALS = "credentials";
+    static TOKEN_EXPIRED = "The authentication token has expired";
 };
 
 export class Api {
