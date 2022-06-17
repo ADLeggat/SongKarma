@@ -14,13 +14,13 @@ interface GetUserWhereClause {
 export const getUser = async (req: ApiRequest) => {
     return getRecords(UserEntity.TABLE_NAME, async() => {
         const where = await buildGetUserWhereClause(req);
-        return await prisma.user.findUnique({ where });
+        return await prisma.user.findUnique({ where });;
     });
 };
 
 const buildGetUserWhereClause = async (req: ApiRequest) => {
     const isSignup = req.query.su === "true";
-    const id = isSignup? req.query.authToken as string : (await getSession())!.user.id;
+    const id = isSignup? req.query.id as string : (await getSession())!.user.id;
 
     const where: GetUserWhereClause = {};
     if(isSignup) {
