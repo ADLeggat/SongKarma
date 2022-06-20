@@ -51,4 +51,10 @@ export class Api {
     static GENERIC_SUCCESS_MESSAGE = "Success";
     static METHOD_NOT_ALLOWED = "Method not allowed";
     static SOMETHING_WENT_WRONG = "Something went wrong";
+};
+
+export class AWS {
+    static ACCESS_KEY = process.env.AWS_ACCESS_ID as string;
+    static SECRET_KEY = process.env.AWS_SECRET_KEY as string;
+    static REGION = "eu-west-1";
 }
