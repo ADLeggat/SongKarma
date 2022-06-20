@@ -1,7 +1,14 @@
 import  { SendEmailCommand, SendEmailCommandInput, SESClient }  from  "@aws-sdk/client-ses";
+import { AWS } from "./constants";
 
-const REGION = "eu-west-1";
-const sesClient = new SESClient({ region: REGION });
+
+const sesClient = new SESClient({ 
+    credentials: {
+        accessKeyId: AWS.ACCESS_KEY,
+        secretAccessKey: AWS.SECRET_KEY
+    },
+    region: AWS.REGION 
+});
 
 export const getSignupEmailParams = (toAddress: string, authToken: string) => {
     return {
