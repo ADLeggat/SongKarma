@@ -1,6 +1,4 @@
-import { NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import { log } from "~/controllers";
 import { ApiRequest, createJsonPayload, doCallout, LogContexts, LOGGING_URI, LogTypes, POST } from "~/util";
 import { Crud } from "./constants";
 import { validate } from "./formValidation";
