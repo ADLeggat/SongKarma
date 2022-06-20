@@ -1,4 +1,5 @@
 export * from "./api";
+export * from "./awsSes";
 export * from "./auth";
 export * from "./constants";
 export * from "./crud";

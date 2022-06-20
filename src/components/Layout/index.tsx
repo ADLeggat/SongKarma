@@ -6,8 +6,8 @@ import { Session } from "next-auth";
 
 interface Props {
     children: ReactNode;
-    path: string;
-    session: Session
+    path?: string;
+    session?: Session
     title: string;
 };
 

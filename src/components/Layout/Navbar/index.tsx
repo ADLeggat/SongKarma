@@ -7,8 +7,8 @@ import { Routes } from "~/util";
 import { Session } from "next-auth";
 
 interface Props {
-    path: string;
-    session: Session
+    path?: string;
+    session?: Session
 };
 
 const Navbar = (props: Props) => {
