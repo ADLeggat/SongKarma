@@ -55,6 +55,6 @@ export class Api {
 
 export class AWS {
     static ACCESS_KEY = process.env.AWS_ACCESS_ID as string;
-    static SECRET_KEY = process.env.AWS_KEY_SECRET as string;
+    static SECRET_KEY = process.env.AWS_SECRET_KEY as string;
     static REGION = "eu-west-1";
 }
