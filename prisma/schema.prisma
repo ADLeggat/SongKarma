@@ -11,7 +11,7 @@ model User {
     id               String   @id @default(auto()) @map("_id") @db.ObjectId
     email            String   @unique
     artistName       String 
-    username         String   @unique
+    username         String   //@unique
     password         String
     artistBio        String?
     profilePic       String?
