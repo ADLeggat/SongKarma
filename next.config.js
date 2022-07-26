@@ -6,5 +6,6 @@ module.exports = {
   },
   env: {
     ENABLE_LOGGING: process.env.ENABLE_LOGGING,
-  }
+  },
+  target: 'experimental-serverless-trace'
 }
