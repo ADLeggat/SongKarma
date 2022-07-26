@@ -4,8 +4,8 @@ import { AWS } from "./constants";
 
 const sesClient = new SESClient({ 
     credentials: {
-        accessKeyId: AWS.ACCESS_KEY,
-        secretAccessKey: AWS.SECRET_KEY
+        accessKeyId: process.env.ACCESS_ID_AWS as string,
+        secretAccessKey:process.env.SECRET_KEY_AWS as string
     },
     region: AWS.REGION 
 });
