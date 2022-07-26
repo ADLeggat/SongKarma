@@ -38,7 +38,6 @@ const index = (props: Props) => {
 
     const doSignUp = async (fields: UserDetailsFormFields) => {
         const res = await signup(fields);
-        console.log("SIGN UP RES: ", res);
 
         if(!res.success) {
             updateMessage(null, false, res.message); 
