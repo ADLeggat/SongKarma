@@ -34,7 +34,7 @@ export const getSignupEmailParams = (toAddress: string, authToken: string) => {
 const getSignupEmailBody = (authToken: string) => {
     return `
         <p> Thank you for signing up to SongKarma. Please verify your email by clicking the link below. </p>
-        <a href="${process.env.NEXTAUTH_URL}/auth/verify/${authToken}" target="_blank">Verfiy email</a>
+        <a href="${process.env.NEXTAUTH_URL}/auth/verify/${authToken}" target="_blank">Verify email</a>
     `
 }
 
